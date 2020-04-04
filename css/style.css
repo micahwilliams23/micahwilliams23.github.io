@@ -1,6 +1,24 @@
-h1, h2 {
-  font: Arial, sans-serif, bold;
+h1 {
+  font: 100% Helvetica, sans-serif;
   color: #000000;
+  font-weight: bold;
+}
+
+h2 {
+  font: 100% Helvetica, sans-serif;
+  color: #363636;
+}
+
+h3 {
+  font: 100% Helvetica, sans-serif;
+  color: #f57242;
+  font-size: 80%;
+}
+
+li {
+  list-style-type: none;
+  font: Helvetica, sans-serif;
+  font-size: 150%;
 }
 
 /*# sourceMappingURL=style.css.map */
