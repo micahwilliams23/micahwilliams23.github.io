@@ -1,0 +1,22 @@
+h1 {
+  font: 100% Helvetica, sans-serif;
+  color: #000000;
+  font-weight: bold;
+}
+
+h2 a {
+  font: 100% Helvetica, sans-serif;
+  color: #f57242;
+}
+
+h3 a {
+  font: 100% Helvetica, sans-serif;
+  color: #f57242;
+  font-size: 70%;
+}
+
+.list-header {
+  font-size: 120%;
+}
+
+/*# sourceMappingURL=style.css.map */
