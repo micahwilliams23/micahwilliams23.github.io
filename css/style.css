@@ -5,6 +5,10 @@ h1 {
 }
 
 h2 a {
+  color: #000000;
+}
+
+h4 a {
   font: 100% Helvetica, sans-serif;
   color: #f57242;
 }
@@ -17,6 +21,18 @@ h3 a {
 
 .list-header {
   font-size: 120%;
+}
+
+.download-link {
+  position: relative;
+  align-items: right;
+  left: 60%;
+  top: -80px;
+}
+
+.centered {
+  position: relative;
+  left:25%
 }
 
 /*# sourceMappingURL=style.css.map */
