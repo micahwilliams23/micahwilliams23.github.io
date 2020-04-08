@@ -25,9 +25,8 @@ h3 a {
 
 .download-link {
   position: relative;
-  align-items: right;
-  left: 60%;
-  top: -80px;
+  text-align: right;
+  font-size: smaller;
 }
 
 .centered {
