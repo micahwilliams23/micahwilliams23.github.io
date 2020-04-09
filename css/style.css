@@ -10,7 +10,10 @@ h2 a {
 
 .contact {
   color: #000000;
+}
 
+ul li {
+  list-style: none;
 }
 
 h4 a{

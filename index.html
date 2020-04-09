@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Micah Williams</title>
+	<title>Visualizing COVID-19</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -56,17 +56,40 @@
 						<li>Los Angeles, California (6910)</li>
 						<li>Rockland, New York (5990)</li>
 						<li>Miami-Dade, Florida (5125)</li>
-					</ol> <a href='images/20200406_us_cropped.png' class="download-link" download>Download this image</a></p><br>
+					</ol> 
+					<a href='images/20200406_us_cropped.png' class="download-link" download>Download this image</a></p><br>
 
 					<img src="images/top_ten.gif" style="max-width: 100%;"><br>
-					<p>This plot shows total infections in the top 10 counties on a linear scale from March 7 to April 7. Six of the top ten are counties near New York City. Other counties in the top ten contain or are near major US cities such as Chicago, Los Angeles, Detroit, and Miami.<a href='images/top_ten.gif' class="download-link" download> Download this image</a></p><br>
+					<p>This plot shows total infections in the top 10 counties on a linear scale from March 7 to April 7. Six of the top ten are counties near New York City. Other counties in the top ten contain or are near major US cities such as Chicago, Los Angeles, Detroit, and Miami.
+					<a href='images/top_ten.gif' class="download-link" download> Download this image</a></p><br>
 
 					<img src='images/PA_0.5fps.gif' style="max-width: 100%;"><br>
-					<p>This choropleth shows the spread of coronavirus across the state of Pennsylvania. Each frame represents one day, starting from the day of the first infection, March 6, until the most recent data available at the time of rendering, April 6. <a href='images/PA_0.5fps.gif' class="download-link" download>Download this image</a></p><br>
+					<p>This choropleth shows the spread of coronavirus across the state of Pennsylvania. Each frame represents one day, starting from the day of the first infection in the state, March 6, until the most recent data available at the time of rendering, April 6. The state has not been hit particularly hard by the COVID-19 pandemic, but this animation shows that speed with which the virus spreads.
+					<br><br>
+					Note the color scale: since the scale is logarithmic, the dark red represents over 1,000 times as many infections as the light purple.
+					<a href='images/PA_0.5fps.gif' class="download-link" download>Download this image</a></p><br>
+
+					<img src='images/avg_change.png' style="max-width: 100%;"><br>
+					<p>This plot shows the relationship between number of confirmed cases per county and the average rate of new infections per day, calculated as the average rate of new infections from April 3-6. Counties colored red are significant outliers: their rates of new infection are high compared to counties with similar numbers of confirmed cases. The 37 highlighted points represent the top 3% of all US counties when compared for their number of cases and average daily rate of new infections.
+					<br><br>
+					In essence, this plot shows counties where coronavirus appears to be spreading faster than it should be when compared to counties with similar numbers of infections. While a likely reason for this effect is that COVID-19 is spreading faster than in peer counties, it could also be the result of testing or reporting. 
+					<br><br>
+					The 37 counties in the top 3% belong to 17 different states, however the majority are in just 8 states: 
+					<ul>
+						<li>Georgia (5)</li>
+						<li>Louisiana (5)</li>
+						<li>New Jersey (5)</li>
+						<li>Pennsylvania (5)</li>
+						<li>Delaware (2)</li>
+						<li>Indiana (2)</li>
+						<li>North Carolina (2)</li>
+						<li>Virginia (2)</li>
+					</ul>
+					<a href='images/avg_change.png' class="download-link" download>Download this image</a></p><br>
 
 					<!-- FORMAT: -->
 					<!-- <img src='[IMAGE LINK]' style="max-width: 100%;"><br>
-					<p style='max-width: 80%;'>[DESCRIPTION]<a href='[IMAGE LINK]' class="download-link" download>Download this image</a></p><br> -->
+					<p>[DESCRIPTION] <a href='[IMAGE LINK]' class="download-link" download>Download this image</a></p><br> -->
 					
 				</div>
 			</div>
