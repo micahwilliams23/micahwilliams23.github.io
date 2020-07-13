@@ -1,126 +1,203 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Visualizing COVID-19</title>
+	<title>Systemic Racism</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
-<body style="align-content: center;">
+<body style="align-content: center; background-color: #fdfdfd;">
 	<br>
-	<div class="container">
-		<div class="row">
-			<div class="col-3"></div>
-			<div class="col-9 text-right">
-				<h3>Micah Williams</h3>
-			</div>
+	<div class="container" name="top">
+		<div class="row" style="justify-content: center;">
+			<div class="col-xs-12 col-md-3 col-lg-2 text-center"><h5><a href="/projects.html">Projects</a></h5></div>
+			<div class="col-xs-12 col-md-3 col-lg-2 text-center"><h5><a href="/about.html">About Me</a></h5></div>
+			<div class="col-xs-12 col-md-3 col-lg-2 text-center"><h5><a href="/now.html">Contact</a></h5></div>
 		</div>
+		<div style="max-width: 50%;" class="centered"><hr></div>
 		<br>
 		<div class="row">
 			<div class="col-sm text-center">
-				<h2><a href="/index.html">Visualizing the Spread of COVID-19 </a></h2>
-				<h5>(Updated April 9)</h5>
+				<h2><a href="/index.html">Exploring Racial Inequality in the United States</a></h2>
+				<h5>July 2020</h5>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-3"></div>
-			<div class="col-md-3 text-center"><h4><a href="/about.html">About Me</a></h2></div>
-			<div class="col-md-3 text-center"><h4><a href="/now.html">Contact</a></h2></div>
-		</div>
 	</div>
-	<div style="max-width: 50%;" class="centered"><hr></div>
 	<br>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-0 col-md-1 col-lg-2 col-xl-3"></div>
 			<div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
-				<p>
-					<strong><em>Description:</em></strong> Animated and static graphs to visualize the spread of the novel coronavirus in the United States.
-					<br>
-					<strong><em>Technologies:</em></strong> R, tidyverse, gganimate.
-					<br>
-					<strong><em>Sources:</em></strong> The New York Times, US Census
-					<br>
-					<strong><em>Created:</em></strong> April 2020
-				</p>
 				<div>
-					<img src='images/us_cases_pts.gif' style="max-width: 100%;"><br>
-					<p>This map shows the total number of infections in the mainland United States with the most recent data available at the time of rendering, April 8. The top 10 counties by total cases on April 8th, were: 
-					<ol>
-						<li>New York City, New York (81,803)</li>
-						<li>Nassau, New York (18,548)</li>
-						<li>Westchester, New York (15,887)</li>
-						<li>Suffolk, New York (15,844)</li>
-						<li>Cook, Illinois (10,520)</li>
-						<li>Wayne, Michigan (9,626)</li>
-						<li>Bergen, New Jersey (7,874)</li>
-						<li>Los Angeles, California (7,530)</li>
-						<li>Rockland, New York (6,413)</li>
-						<li>Essex, New Jersey (5,598)</li>
-					</ol> 
-					<a href='images/us_cases_pts.gif' class="download-link" download>Download this image</a></p><br>
-
-					<img src='images/us_deaths_pts.gif' style="max-width: 100%;"><br>
-					<p>This map shows the total number of deaths in the mainland United States with the most recent data available at the time of rendering, April 8. The case fatality rate (deaths divided by cases) in the United States on April 8 was 3.45%, however the case fatality rate was higher among many counties. The following counties are the top ten counties by case fatality rate among counties with more than 15 deaths, along with their total number of deaths to date: 
-					<ol>
-						<li>Franklin, Massachusetts (17.95%, 21)</li>
-						<li>Henrico, Virginia (11.34%, 33)</li>
-						<li>Benton, Washington (10%, 19)</li>
-						<li>Carroll, Maryland (9.68%, 18)</li>
-						<li>Mahoning, Ohio (9.18%, 28)</li>
-						<li>Whatcom, Washington (8.4%, 20)</li>
-						<li>St. John the Baptist, Louisiana (8.1%, 35)</li>
-						<li>Berkshire, Massachusetts (7.12%, 20)</li>
-						<li>Jefferson, Kentucky (6.72%, 27)</li>
-						<li>King, Washington (6.67%, 246)</li>
-					</ol> 
-					<a href='images/us_deaths_pts.gif' class="download-link" download>Download this image</a></p><br>
-
-
-
-					<img src="images/top_ten.gif" style="max-width: 100%;"><br>
-					<p>This plot shows total infections in the top 10 counties on a linear scale from March 7 to April 7. Six of the top ten counties are in or near New York City. Other counties in the top ten contain or are near major US cities such as Chicago, Los Angeles, Detroit, and Miami.
-					<a href='images/top_ten.gif' class="download-link" download> Download this image</a></p>
-
-					<img src='images/PA_0.5fps.gif' style="max-width: 100%;"><br>
-					<p>This choropleth shows the spread of coronavirus across the state of Pennsylvania. Each frame represents one day, starting from the day of the first infection in the state, March 6, until the most recent data available at the time of rendering, April 6. This animation shows the speed with which the virus spreads, and why it is so hard to contain without a cure or vaccine: within only a few weeks of the first case, many thousands of infections were present spread across nearly all of Pennsylvania's counties.
-					</p><p>
-					Note the color scale: since the scale is logarithmic, the dark red represents over 1,000 times as many infections as the light purple.
-					<a href='images/PA_0.5fps.gif' class="download-link" download>Download this image</a></p><br>
-
-					<img src='images/avg_change.png' style="max-width: 100%;"><br>
-					<p>This plot shows the relationship between number of confirmed cases per county and the average rate of new infections per day, calculated as the average rate of new infections from April 3-6. Counties colored red are significant outliers: their rates of new infection are high compared to counties with similar numbers of confirmed cases. The 37 highlighted points represent the top 3% of all US counties when compared for their number of cases and average daily rate of new infections.
-					</p><p>
-					In essence, this plot shows counties where coronavirus appears* to be spreading faster than it should be when compared to counties with similar numbers of infections.
-					</p><p style='font-size: smaller;'>
-					*while a likely reason for this effect is that COVID-19 is spreading faster than in peer counties, it could also be the result of increases in testing or lag in reporting. 
-					</p><p>
-					<!-- The 37 counties in the top 3% belong to 17 different states, however the majority are in just 8 states: 
-					<ul>
-						<li>Georgia (5)</li>
-						<li>Louisiana (5)</li>
-						<li>New Jersey (5)</li>
-						<li>Pennsylvania (5)</li>
-						<li>Delaware (2)</li>
-						<li>Indiana (2)</li>
-						<li>North Carolina (2)</li>
-						<li>Virginia (2)</li>
-					</ul> -->
-					</p>
-					<a href='images/avg_change.png' class="download-link" download>Download this image</a>
-					<br><br>
-
-					<h4>Data We Don't Have</h4>
 					<p>
-					Early data shows that in cities with high racial diversity, there are serious disparities in fatality rates. As <a href="https://www.nytimes.com/2020/04/07/us/coronavirus-race.html">the New York Times reported</a>, "about 70 percent of the people who have died [in Louisiana] are black, though only a third of that state’s population is." In an article on April 7, <a href="https://www.metrotimes.com/news-hits/archives/2020/04/07/detroit-has-a-higher-coronavirus-death-rate-than-new-york-city">the Detroit Metro Times reported</a> that in addition to Detroit's COVID-19 death rate (32.9 per 100,000) being more than 55% higher than that of New York City, "[black people] make up 13.6% of the state’s residents but more than 40% of the fatalities."
-					</p><p>
-					Even after the dust is settled on this pandemic, it will be important to keep these facts in mind, and to explore them to the full extent that is necessary when dealing with issues of life and death. What can we do to address these disparities? How can we ensure that when the next emergency arrives, we will be prepared to remedy it equitably?
+						<strong><em>Description:</em></strong> Visualizing the effects of racial inequality in the United States by comparing income, education, and incarceration between white and black populations. Part blog post, part data science, part stream of consciousness.<br>
+						<strong><em>Technologies:</em></strong> R, tidyverse, tinycensus.<br>
+						<strong><em>Sources:</em></strong> US Census Bureau, US Dep. of Justice Bureau of Justice Statistics<br>
+						<strong><em>Created:</em></strong> July 2020<br>
+						<strong><em>Warning:</em></strong> Do your own research- all the data is public, and all my code is on <a href="https://github.com/micahwilliams23/racial_inequality">Github</a>.
 					</p>
+				</div>
+				<div>
+					<h5 style="text-align: center;">I. Incarceration</h5>
+					<p>
+						The US has the largest population of incarcerated people of any nation in the world. The incarceration rate,
+						while declining for well over a decade, remains higher than in any other country.
+					</p>
+					<a href = 'images/racial_inequality/prison_totals.png' target="_blank">
+						<img src='images/racial_inequality/prison_totals.png' style="max-width: 100%;"><br>
+					</a>
+					<p>
+						However, the overall rate, declining or not, does not paint an accurate picture of race and incarceration in the United States. Blacks and whites face vastly different incarceration rates today, with the black rate nearly six times higher than the white rate. 
+					</p>
+					<a href = 'images/racial_inequality/prison.png' target="_blank">
+						<img src='images/racial_inequality/prison.png' style="max-width: 100%;"><br>
+					</a>
+					<p>
+						From 2008 to 2018, the incarceration rate for blacks decreased by 31.6%, while the rate for whites decreased by
+						15.2%. Notice the scales on the two graphs above: the data for the national rate on the first graph is identical
+						to the data for the national rate on the second graph (minus data from 1978 to 2007).
+					</p>
+				</div>
+				<div>
+					<h5 style='text-align:center' name="income">II. Income and Wealth</h5>
+					<p>
+						Home ownership is often touted as an effective means of building wealth and establishing financial stability. Home ownership rates have ebbed and flowed over the last few years, peaking for both blacks and whites around 2004. The rates follow the same overall trends, however home ownership among blacks is far lower than whites, and little progress has been made in closing the gap since the mid-90's. As a result of this disparity, far fewer black Americans are able to utilize the financial benefits of home ownership.
+					</p>
+					<a href = 'images/racial_inequality/homes.png' target="_blank">
+						<img src='images/racial_inequality/homes.png' style="max-width: 100%;"><br>
+					</a>
+					<p>
+						Comparing black and white Americans by income bracket shows that there are greater concentrations of whites in higher income brackets than blacks. 45% of black households in the US have an income below $35K per year. Only 27% of white households are in this category. In contrast, nearly 30% of white households make more than $100K per year. Only 15% of black household incomes (half the rate of whites) are at this level.
+					</p>
+					<a href = 'images/racial_inequality/income.png' target="_blank">
+						<img src='images/racial_inequality/income.png' style="max-width: 100%;"><br>
+					</a>
+					<p>
+						The trend above could be the result of relatively poorer black populations in one area of the country, and relatively rich white populations in other areas of the country. It is perhaps slightly more comfortable to imagine this hypothetical version of the United States. However, comparing median household income by race and county contradicts this theory: even within the same counties, white households have higher incomes than black households.
+					</p>
+					<a href = 'images/racial_inequality/county_income.png' target="_blank">
+						<img src='images/racial_inequality/county_income.png' style="max-width: 100%;"><br>
+					</a>
+					<p>
+						The "Ideal" line is the line <i>y = x</i>. If race was not a factor in determining the median household income of a county, then each point on the graph would fall on or near this line. For example, if the median household income for blacks was $75K/year, the median household income for whites would be the same, $75K. While there would still be relatively richer and poorer counties, being black or white would not change your income.<br><br>
+						The line of best fit shows the true relationship between black median household income and white median household income: the shift of the line above the "Ideal" line means that in most counties, the median household income for whites is higher than for blacks. In fact, of the 1,144 counties with complete data (and a sizable black population, at least 5% of white population), median household income was higher for whites than black in 1,107 counties (96.8%). Of the 37 counties where median household income was higher for blacks, 10 were in Puerto Rico.
+					</p><br>
+				</div>
 
-					<!-- FORMAT: -->
-					<!-- <img src='[IMAGE LINK]' style="max-width: 100%;"><br>
-					<p>[DESCRIPTION] <a href='[IMAGE LINK]' class="download-link" download>Download this image</a></p><br> -->
+				<div>
+					<a name="education"><h5 style='text-align:center'> III. Education</h5></a>
+					<p>
+						In 1994, former Vice President Al Gore said, "We cannot tolerate - nor in the long run can this nation afford - a society in which some children become fully educated and others do not; nor can we tolerate a society in which some adults have access to training and lifetime education, and others do not." <br><br>Unfortunately, the 26 years since Vice President Gore's speech have not brought equality to American education. While roughly one in three white males and females attain a Bachelor's degree or higher, fewer than one in four black females and fewer than one in five black males attain a Bachelor's degree or higher.
+					</p>
+					<a href = 'images/racial_inequality/education_race.png' target="_blank">
+						<img src='images/racial_inequality/education_race.png' style="width: 100%;"><br>
+					</a>
+					<p>
+						Educational attainment is much more interesting when income is factored in: below, median household income vs. attainment of a Bachelor's degree or higher, by county and race. There is a different point for black and white populations for each county, but the different racial groups are not color coded yet. There is a clear positive relationship between income and educational attainment, but notice how most data is clumped in the area between ~$20K/year and ~$60K/year. 
+					</p>
+					<a href = 'images/racial_inequality/inc_edu_norace.png' target="_blank">
+						<img src='images/racial_inequality/inc_edu_norace.png' style="width: 100%;"><br>
+					</a>
+					<p>
+						By changing the x-axis from median household income to a <i>ranking</i> of median household income, the data can be distributed more evenly. Below, percentile ranking of median household income vs. attainment of a Bachelor's degree or higher. A ranking of 50% corresponds to a county that has a higher median household income than 50% of the included counties. Percentile ranking is explained further <a href="#appendix">here</a>.
+					</p>
+					<a href = 'images/racial_inequality/in_rank_norace.png' target="_blank">
+						<img src='images/racial_inequality/inc_rank_norace.png' style="width: 100%;"><br>
+					</a>
+					<p>
+						Once race is included, however, a troubling pattern emerges. Most of the black populations are concentrated in the lower levels of the income levels, and the relationship between median household income and educational attainment for blacks is not quite as strong as for whites. As income increases, educational attainment increases at a slower rate for blacks than whites. 
+					</p>
+					<a href = 'images/racial_inequality/inc_edu_bachelors.png' target="_blank">
+						<img src='images/racial_inequality/inc_edu_bachelors.png' style="max-width: 100%;"><br>
+					</a>
+					<!-- <p>
+
+					</p>
+					<a href = 'images/racial_inequality/inc_edu_black.png' target="_blank">
+						<img src='images/racial_inequality/inc_edu_black.png' style="max-width: 100%;"><br>
+					</a> -->
+					<p>
+						The following graph shows the relationships between median household income and various levels of educational attainment, including only the data for blacks. There is a clear relationship between higher incomes and higher educational attainment, shown by increasing attainment of 'Bachelor's degree or higher' and decreasing rates of 'High school graduate' and 'Less than high school diploma.' The vertical line on each of the graphs (at around 42% in the household income rankings) denotes a special boundary: three-quarters of black communities are to the left of this line, having median household incomes in the bottom 42% of overall income rankings. Only one in four black populations has an income above this level. <br><br>
+						The uneven distribution in income means that while a correlation exists, the vast majority of black communities are yet to reach the benefits of higher income and higher educational attainment.
+					</p>
+					<a href = 'images/racial_inequality/inc_edu_split.png' target="_blank">
+						<img src='images/racial_inequality/inc_edu_split.png' style="max-width: 100%;"><br>
+					</a>
+				</div>
+				<div>
+					<h5 style='text-align:center'> IV. Conclusions, but not really</h5>
+					<p>
+						There are many questions still to be asked, and many more ways to poke and massage the data to explore pressing questions. This project was mainly explorational- identifing and presenting interesting correlations or major disparities along racial lines. The difference in home ownership rates, for example, cannot be disputed. It is a disparity that exists across the whole of the United States and one that has not improved in 25 years. I've drawn attention to that disparity here, but I do not intend to be conclusive about the origin of the disparity or the proper way to bring about change. Nothing I've produced here will answer where this disparity came from or why. The same applies for incarceration rates: why are incarceration rates so high to begin with? Are white and black populations being charged with the same crimes, and are they given the same sentences? When did inmates first enter the system? How many took plea bargains? What policies or politics are responsible for mass incarceration, and what policy proposals would best reduce imprisonment in the US? These questions are not answered or addressed here, though I wish I had the means and expertise to.<br><br>
+						Education is often celebrated as an "engine of social mobility." As someone who was raised in an education-focused family and is now a college student at Harvard, I've been <span style="text-decoration: line-through;">beat over the head with</span> spoon-fed this mantra particularly vigorously. But how true is it? The data seems to support the hypothesis, but does it matter that education raises incomes if the poorest populations don't have access to education? Or if the poorest populations choose not to continue their educations, or attend lower quality schools? How can we expect those at the bottom to climb the ladder when we've removed the bottom rungs? Or is the ladder adequate, there to be climbed by whoever has the determination? I cannot hope to hypothesize on the health of the ladder based on this data, but it is an important consideration in remedying the disparities between races in the United States.<br><br>
+						Perhaps the most important question I've wrestled with throughout this project where to point responsibility for the trends that appear in the data. The original title of the project was not "racial inequality," it was "systemic racism." In recent months, especially in the wake of the George Floyd protests and revived conversations around confederate monuments, the term "systemic racism" seems to be in vogue. But to what extend is America a racist system? Clearly, "the system" is not entirely blind to race, and (at least in the data presented here) black Americans are worse off as a result- the data is more than obvious about this much. But who is responsible for the system? At what level of the system are these problems best addressed?<br><br>
+						What data are we missing? For this project, I pulled mostly from the Census and the Census Bureau's American Community Survey, along with some data from the US Dept. of Justice's Bureau of Justice Statistics. All of this data was aggregated at some level- usually by county or nationally. In some cases, finer resolution data exists, but is not available. In an attempt to paint a clearer, more interesting picture of incarceration, I tried to access data from the Natiuonal Corrections Reporting Program, an offender-level dataset that includes not only relevant demographic information, but also criminal history and sentencing information. This data is only available to certain academic researchers in a very specific set of circumstances. For someone like me, working independently from my bedroom (for the curious, no I am not wearing pants), this data is inaccessible. In other cases, the data simply does not exist. What data should we collect to monitor racial equality, and what metrics should we focus on in our quest to create a just system? What are the most important levers to pull on?<br><br>
+						Finally, who are the stakeholders? Obviously every day Americans, black and white alike, but who else is interested in these disparities? How does the prison system and its embedded economic incentives interact with the rest of society? How does the financial system influence home ownership rates? How does middle school funding or access to pre-K affect college graduation rates? But most importantly, <b>who is interested in maintaining these disparities?</b> What can we do to undermine their work? My single conclusion from this project is that none of this is accidental. The data looks the way it does - the system is the way it is - because there are powerful people with a vested interest in keeping it that way.<br><br>
+						I do believe that change is coming, however slowly. 
+					</p>
+				</div>
 					
+					<br>
+				<!-- <div>
+					<h4>About This Project</h4>
+					<p>
+					Systemic Racism is a topic that has always interested me. I grew up in Honolulu, Hawaii. Hawaii is often celebrated as a mixing pot of cultures and identities, though there are certainly those who have had different experiences. My experience growing up as a part Black, part Chinese kid was overwhelmingly positive, but as I grew older I started to realize how the world viewed me through the lens of my skin color, even if I did not view myself in this way. 
+					<br><br>
+					Systemic racism interested me at first because I doubted that it existed at all. I don't mean that I believed America was inherently not racist- I knew about redlining policies, lack of diversity in leadership positions, stop and frisk laws, incarceration and criminal justice discrimation, and racial educational disparities. But a younger, less mature version of myself wanted to believe that if I stayed on the right side of the law, crossed my t's, dotted my i's, and got a solid education, then racism wouldn't affect me or people like me. Sure, the criminal justice system is flawed, but it doesn't matter if you don't break any rules, right? 
+					<br><br>
+					The unanswered calls for justice for George Floyd, Breonna Taylor, Elijah McClain, Kalief Browder, and for countless others convinced me otherwise. Watching police officers murder an innocent man on video and then receive lenient charges after enormous, worldwide outrage exposed the racist system that has always existed, albeit a litte more quietly, in front of all of us. Reading the story of a man who spent two years in solitary confinement after being falsely accused of stealing a backpack burned down the illusion of comfort that I had constructed for myself. And seeing the disproportionate effect of Covid-19 on Black and brown communities showed that the effects of racism are not just limited to individual moments.
+					<br><br>
+					Systemic racism, whether it be the remnants of an explicitly racist system built through slavery and Jim Crow laws, through discriminatory policies that exist today, or through the anti-blackness that is deeply woven in the fabric of society, is real and is causing widespread detriment against Black communities. The disparities that exist in American society today cannot be explained away by random chance. The 28% difference in home ownership is not a result of laziness. The reason for fewer Black men and women finishing high school is not stupidity. The solution is not for struggling people and communities to "pull themselves up by the bootstraps." There are policies, expectations, and biases in our society that are upholding the differences that exist between racial groups. The first step towards correcting these policies is understanding their effects and accepting that they exist.
+					<br><br>
+					This project was eye-opening for me. Race shows up in so many metrics and causes extreme disparities in a way that was honestly surprising to me. Reflecting back, it shouldn't have been; systemic racism has been engrained in American society since before the founding of the country, and people have been fighting against it for just as long. 
+					</p>
+					<p>
+					A friend told me once that he heard from a Rabbi, "we are not responsible for finishing the work of fixing the world." I like the implications of that- we aren't responsible for finishing the work, but we <i>are</i> responsible for starting (or more likely, continuing) the work of fixing the world. My hope is that the data I've presented here will be enough to convince the unconvinced. I do not expect this project to be the difference between equality and inequality, but I hope for at least one person reading this, it had an impact.
+					</p>
+				</div> -->
+
+				<div>
+					<a name="appendix"><h4>Appendix</h4></a>
+					<h5 style="text-align:center">I. Percentile Ranking</h5>
+					<p>
+						This gif shows the transformation of data from its original distribution on the x-axis to a distribution based on percentile ranking on the x-axis (the y-axis is unchanged). The original data is concentrated on the left side of the graph, but after the transformation the data is evenly distributed across the x-axis. Evening out distributions is a key feature of percentile rankings.
+					</p>
+					<a href = 'images/racial_inequality/ranking_anim.gif' target="_blank">
+						<img src='images/racial_inequality/ranking_anim.gif' style="max-width: 100%;"><br>
+					</a>
+					<p>
+						Numerically, an example of percentile ranking looks like this:<br>
+						<div class="data">
+							<table>
+								<tr class="tbl-divider">
+									<td>Original data</td>
+									<td>1</td>
+									<td>1.1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>5</td>
+									<td>5.2</td>
+									<td>5.5</td>
+									<td>20</td>
+									<td>100</td>
+								</tr>
+								<tr>
+									<td>Percentile rank</td>
+									<td>0.000</td>
+									<td>0.125</td>
+									<td>0.250</td>
+									<td>0.375</td>
+									<td>0.500</td>
+									<td>0.625</td>
+									<td>0.750</td>
+									<td>0.875</td>
+									<td>1.000</td>
+								</tr>
+							</table>
+						</div><br>
+						Another way of thinking about percentile rank is by converting the number to an actual percentage. In the example above, the percentile ranking of the 5.2 is 0.625, or 62.5%. 5.2 is greater than 62.5% of the data in the rankings- there are 8 other values, and 5.2 is larger than 5 of the 8. Notice how the actual values and the distance between them do not matter, only their size relative to each other.<br><br>
+						I worked pretty hard on this project. Thanks for reading this far.<br>
+						<a href="#education">return to Education section</a>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -130,15 +207,16 @@
 		<div class="row text-center">
 			<div class="col-sm-3"></div>
 			<div class="col-sm-2">
-				<h4><a href="https://www.linkedin.com/in/micahwilliams23/" target="_blank">LinkedIn</a></h4>
+				<h5><a href="https://www.linkedin.com/in/micahwilliams23/" target="_blank">LinkedIn</a></h5>
 			</div>
 			<div class="col-sm-2">
-				<h4><a href="https://github.com/micahwilliams23" target="_blank">Github</a></h4>
+				<h5><a href="https://github.com/micahwilliams23" target="_blank">Github</a></h5>
 			</div>
 			<div class="col-sm-2">
-				<h4><a href="https://www.instagram.com/micah.w" target="_blank">Instagram</a></h4>
+				<h5><a href="https://www.instagram.com/micah.w" target="_blank">Instagram</a></h5>
 			</div>	
 		</div>
 	</div>
+	<br>
 </body>
 </html>

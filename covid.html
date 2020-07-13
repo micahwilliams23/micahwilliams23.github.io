@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Visualizing COVID-19</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body style="align-content: center;">
+	<br>
+	<div class="container">
+		<div class="row" style="justify-content: center;">
+			<div class="col-xs-12 col-md-3 col-lg-2 text-center"><h5><a href="/projects.html">Projects</a></h5></div>
+			<div class="col-xs-12 col-md-3 col-lg-2 text-center"><h5><a href="/about.html">About Me</a></h5></div>
+			<div class="col-xs-12 col-md-3 col-lg-2 text-center"><h5><a href="/now.html">Contact</a></h5></div>
+		</div>
+		<div style="max-width: 50%;" class="centered"><hr></div>
+		<br>
+		<div class="row">
+			<div class="col-sm text-center">
+				<h2><a href="/index.html">Visualizing the Spread of COVID-19 </a></h2>
+				<h5>(Updated April 9, 2020)</h5>
+				<h4 class="alert">Note: This site is not maintained or updated with new data.</h4>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-0 col-md-1 col-lg-2 col-xl-3"></div>
+			<div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+				<p>
+					<strong><em>Description:</em></strong> Animated and static graphs to visualize the spread of the novel coronavirus in the United States.
+					<br>
+					<strong><em>Technologies:</em></strong> R, tidyverse, gganimate.
+					<br>
+					<strong><em>Sources:</em></strong> The New York Times, US Census
+					<br>
+					<strong><em>Created:</em></strong> April 2020
+				</p>
+				<div>
+					<img src='images/covid/us_cases_pts.gif' style="max-width: 100%;"><br>
+					<p>This map shows the total number of infections in the mainland United States with the most recent data available at the time of rendering, April 8. The top 10 counties by total cases on April 8th, were: 
+					<ol>
+						<li>New York City, New York (81,803)</li>
+						<li>Nassau, New York (18,548)</li>
+						<li>Westchester, New York (15,887)</li>
+						<li>Suffolk, New York (15,844)</li>
+						<li>Cook, Illinois (10,520)</li>
+						<li>Wayne, Michigan (9,626)</li>
+						<li>Bergen, New Jersey (7,874)</li>
+						<li>Los Angeles, California (7,530)</li>
+						<li>Rockland, New York (6,413)</li>
+						<li>Essex, New Jersey (5,598)</li>
+					</ol> 
+					<a href='images/covid/us_cases_pts.gif' class="download-link" download>Download this image</a></p><br>
+
+					<img src='images/covid/us_deaths_pts.gif' style="max-width: 100%;"><br>
+					<p>This map shows the total number of deaths in the mainland United States with the most recent data available at the time of rendering, April 8. The case fatality rate (deaths divided by cases) in the United States on April 8 was 3.45%, however the case fatality rate was higher among many counties. The following counties are the top ten counties by case fatality rate among counties with more than 15 deaths, along with their total number of deaths to date: 
+					<ol>
+						<li>Franklin, Massachusetts (17.95%, 21)</li>
+						<li>Henrico, Virginia (11.34%, 33)</li>
+						<li>Benton, Washington (10%, 19)</li>
+						<li>Carroll, Maryland (9.68%, 18)</li>
+						<li>Mahoning, Ohio (9.18%, 28)</li>
+						<li>Whatcom, Washington (8.4%, 20)</li>
+						<li>St. John the Baptist, Louisiana (8.1%, 35)</li>
+						<li>Berkshire, Massachusetts (7.12%, 20)</li>
+						<li>Jefferson, Kentucky (6.72%, 27)</li>
+						<li>King, Washington (6.67%, 246)</li>
+					</ol> 
+					<a href='images/covid/us_deaths_pts.gif' class="download-link" download>Download this image</a></p><br>
+
+
+
+					<img src="images/covid/top_ten.gif" style="max-width: 100%;"><br>
+					<p>This plot shows total infections in the top 10 counties on a linear scale from March 7 to April 7. Six of the top ten counties are in or near New York City. Other counties in the top ten contain or are near major US cities such as Chicago, Los Angeles, Detroit, and Miami.
+					<a href='images/covid/top_ten.gif' class="download-link" download> Download this image</a></p>
+
+					<img src='images/covid/PA_0.5fps.gif' style="max-width: 100%;"><br>
+					<p>This choropleth shows the spread of coronavirus across the state of Pennsylvania. Each frame represents one day, starting from the day of the first infection in the state, March 6, until the most recent data available at the time of rendering, April 6. This animation shows the speed with which the virus spreads, and why it is so hard to contain without a cure or vaccine: within only a few weeks of the first case, many thousands of infections were present spread across nearly all of Pennsylvania's counties.
+					</p><p>
+					Note the color scale: since the scale is logarithmic, the dark red represents over 1,000 times as many infections as the light purple.
+					<a href='images/covid/PA_0.5fps.gif' class="download-link" download>Download this image</a></p><br>
+
+					<img src='images/covid/avg_change.png' style="max-width: 100%;"><br>
+					<p>This plot shows the relationship between number of confirmed cases per county and the average rate of new infections per day, calculated as the average rate of new infections from April 3-6. Counties colored red are significant outliers: their rates of new infection are high compared to counties with similar numbers of confirmed cases. The 37 highlighted points represent the top 3% of all US counties when compared for their number of cases and average daily rate of new infections.
+					</p><p>
+					In essence, this plot shows counties where coronavirus appears* to be spreading faster than it should be when compared to counties with similar numbers of infections.
+					</p><p style='font-size: smaller;'>
+					*while a likely reason for this effect is that COVID-19 is spreading faster than in peer counties, it could also be the result of increases in testing or lag in reporting. 
+					</p><p>
+					<!-- The 37 counties in the top 3% belong to 17 different states, however the majority are in just 8 states: 
+					<ul>
+						<li>Georgia (5)</li>
+						<li>Louisiana (5)</li>
+						<li>New Jersey (5)</li>
+						<li>Pennsylvania (5)</li>
+						<li>Delaware (2)</li>
+						<li>Indiana (2)</li>
+						<li>North Carolina (2)</li>
+						<li>Virginia (2)</li>
+					</ul> -->
+					</p>
+					<a href='images/covid/avg_change.png' class="download-link" download>Download this image</a>
+					<br><br>
+
+					<h4>Data We Don't Have</h4>
+					<p>
+					Early data shows that in cities with high racial diversity, there are serious disparities in fatality rates. As <a href="https://www.nytimes.com/2020/04/07/us/coronavirus-race.html">the New York Times reported</a>, "about 70 percent of the people who have died [in Louisiana] are black, though only a third of that state’s population is." In an article on April 7, <a href="https://www.metrotimes.com/news-hits/archives/2020/04/07/detroit-has-a-higher-coronavirus-death-rate-than-new-york-city">the Detroit Metro Times reported</a> that in addition to Detroit's COVID-19 death rate (32.9 per 100,000) being more than 55% higher than that of New York City, "[black people] make up 13.6% of the state’s residents but more than 40% of the fatalities."
+					</p><p>
+					Even after the dust is settled on this pandemic, it will be important to keep these facts in mind, and to explore them to the full extent that is necessary when dealing with issues of life and death. What can we do to address these disparities? How can we ensure that when the next emergency arrives, we will be prepared to remedy it equitably?
+					</p>
+
+					<!-- FORMAT: -->
+					<!-- <img src='[IMAGE LINK]' style="max-width: 100%;"><br>
+					<p>[DESCRIPTION] <a href='[IMAGE LINK]' class="download-link" download>Download this image</a></p><br> -->
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="max-width: 50%;" class="centered"><hr></div>
+	<div class="container-fluid">
+		<div class="row text-center">
+			<div class="col-sm-3"></div>
+			<div class="col-sm-2">
+				<h4><a href="https://www.linkedin.com/in/micahwilliams23/" target="_blank">LinkedIn</a></h4>
+			</div>
+			<div class="col-sm-2">
+				<h4><a href="https://github.com/micahwilliams23" target="_blank">Github</a></h4>
+			</div>
+			<div class="col-sm-2">
+				<h4><a href="https://www.instagram.com/micah.w" target="_blank">Instagram</a></h4>
+			</div>	
+		</div>
+	</div>
+</body>
+</html>

@@ -1,5 +1,4 @@
 h1 {
-  font: 100% Helvetica, sans-serif;
   color: #000000;
   font-weight: bold;
 }
@@ -16,16 +15,12 @@ ul li {
   list-style: none;
 }
 
-h4 a{
-  font: 80% Helvetica, sans-serif;
+h5 a{
   color: #303030;
 }
 
-h3 a {
-  font: 100% Helvetica, sans-serif;
+h4 a {
   color: #000000;
-  font-weight: bolder;
-  /* font-size: 70%; */
 }
 
 .list-header {
@@ -42,4 +37,46 @@ h3 a {
   left:25%
 }
 
+p {
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
+.nav-menu{
+  position: absolute;
+  top: 40%;
+  left: 15px;
+}
+
+.data{
+  /* margin-left: 5%; */
+  font-weight: 500;
+}
+
+table{
+  width: 100%;
+}
+
+td{
+  /* border-bottom: 1px solid #444; */
+}
+
+tr{
+  width: 100%;
+}
+
+.tbl-divider {
+  border-bottom: 1px solid #444;
+}
+
+.project-slot{
+  min-height: 100px;
+  padding: auto;
+  border-top: 1px solid #bbb;
+  /* border-bottom: 1px solid #bbb; */
+}
+
+.project-slot a{
+  color: #000;
+}
 /*# sourceMappingURL=style.css.map */
