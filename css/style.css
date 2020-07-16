@@ -3,6 +3,10 @@ h1 {
   font-weight: bold;
 }
 
+a:hover {
+  text-decoration: wavy;
+}
+
 h2 a {
   color: #000;
 }
@@ -57,8 +61,8 @@ table{
   width: 100%;
 }
 
-td{
-  /* border-bottom: 1px solid #444; */
+.footnote {
+  color: #000;
 }
 
 tr{
@@ -74,6 +78,10 @@ tr{
   padding: auto;
   border-top: 1px solid #bbb;
   /* border-bottom: 1px solid #bbb; */
+}
+
+.refs {
+  color: #000;
 }
 
 .project-slot a{

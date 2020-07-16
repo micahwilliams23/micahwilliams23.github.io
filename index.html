@@ -6,9 +6,9 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
-<body style="align-content: center; background-color: #fdfdfd;">
+<body style="align-content: center; background-color: #fefefe;">
 	<br>
-	<div class="container" name="top">
+	<div class="container">
 		<div class="row navbar" style="justify-content: center;">
 			<div class="col-xs-12 col-md-3 col-lg-2 text-center"><h5><a href="/projects.html">Projects</a></h5></div>
 			<div class="col-xs-12 col-md-3 col-lg-2 text-center"><h5><a href="/about.html">About Me</a></h5></div>
@@ -28,20 +28,18 @@
 		<div class="row">
 			<div class="col-sm-0 col-md-1 col-lg-2 col-xl-3"></div>
 			<div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
-				<div>
+				<div name="top">
 					<p>
-						<strong><em>Description:</em></strong> Visualizing the effects of racial inequality in the United States by comparing income, education, and incarceration between white and black populations. Part blog post, part data science, part stream of consciousness.<br>
+						<strong><em>Description:</em></strong> Visualizing the effects of racial inequality in the United States by comparing income, education, and incarceration between white and black populations.<br>
 						<strong><em>Technologies:</em></strong> R, tidyverse, tinycensus.<br>
 						<strong><em>Sources:</em></strong> US Census Bureau, US Dep. of Justice Bureau of Justice Statistics<br>
 						<strong><em>Created:</em></strong> July 2020<br>
-						<strong><em>Warning:</em></strong> Do your own research- all the data is public, and all my code is on <a href="https://github.com/micahwilliams23/racial_inequality">Github</a>.
 					</p>
 				</div>
 				<div>
 					<h5 style="text-align: center;">I. Incarceration</h5>
 					<p>
-						The US has the largest population of incarcerated people of any nation in the world. The incarceration rate,
-						while declining for well over a decade, remains higher than in any other country.
+						The United States has the largest population of incarcerated people of any nation in the world.<a class="footnote" href="#references"><sup>1</sup></a> The incarceration rate, while declining for well over a decade, remains higher than in any other country.
 					</p>
 					<a href = 'images/racial_inequality/prison_totals.png' target="_blank">
 						<img src='images/racial_inequality/prison_totals.png' style="max-width: 100%;"><br>
@@ -61,33 +59,33 @@
 				<div>
 					<h5 style='text-align:center' name="income">II. Income and Wealth</h5>
 					<p>
-						Home ownership is often touted as an effective means of building wealth and establishing financial stability. Home ownership rates have ebbed and flowed over the last few years, peaking for both blacks and whites around 2004. The rates follow the same overall trends, however home ownership among blacks is far lower than whites, and little progress has been made in closing the gap since the mid-90's. As a result of this disparity, far fewer black Americans are able to utilize the financial benefits of home ownership.
+						Home ownership is often touted as an effective means of building wealth and establishing financial stability. Home ownership rates have risen and fallen over the last 25 years, peaking for both blacks and whites around 2004. The rates follow the same overall trends, however home ownership among blacks is far lower than whites, and little progress has been made in closing the gap since the mid-90's. As a result of this disparity, far fewer black Americans are able to utilize the financial benefits of home ownership.
 					</p>
 					<a href = 'images/racial_inequality/homes.png' target="_blank">
 						<img src='images/racial_inequality/homes.png' style="max-width: 100%;"><br>
 					</a>
 					<p>
-						Comparing black and white Americans by income bracket shows that there are greater concentrations of whites in higher income brackets than blacks. 45% of black households in the US have an income below $35K per year. Only 27% of white households are in this category. In contrast, nearly 30% of white households make more than $100K per year. Only 15% of black household incomes (half the rate of whites) are at this level.
+						In addition to differences in home ownership rates, there are significant differences in income between blacks and whites. Comparing black and white Americans by income bracket shows that there are greater concentrations of whites in higher income brackets than blacks. 45% of black households in the US have an income below $35K per year. Only 27% of white households are in this category. In contrast, nearly 30% of white households make more than $100K per year. Only 15% of black household incomes (half the rate of whites) are at this level.
 					</p>
 					<a href = 'images/racial_inequality/income.png' target="_blank">
 						<img src='images/racial_inequality/income.png' style="max-width: 100%;"><br>
 					</a>
 					<p>
-						The trend above could be the result of relatively poorer black populations in one area of the country, and relatively rich white populations in other areas of the country. It is perhaps slightly more comfortable to imagine this hypothetical version of the United States. However, comparing median household income by race and county contradicts this theory: even within the same counties, white households have higher incomes than black households.
+						The trend above could be the result of relatively poorer black populations in one area of the country, and relatively rich white populations in other areas of the country. It is perhaps slightly more comfortable to imagine this hypothetical version of the United States. However, comparing median household income by race and county shows that even within the same counties (and at every income level), white households have higher incomes than black households.
 					</p>
 					<a href = 'images/racial_inequality/county_income.png' target="_blank">
 						<img src='images/racial_inequality/county_income.png' style="max-width: 100%;"><br>
 					</a>
 					<p>
 						The "Ideal" line is the line <i>y = x</i>. If race was not a factor in determining the median household income of a county, then each point on the graph would fall on or near this line. For example, if the median household income for blacks was $75K/year, the median household income for whites would be the same, $75K. While there would still be relatively richer and poorer counties, being black or white would not change your income.<br><br>
-						The line of best fit shows the true relationship between black median household income and white median household income: the shift of the line above the "Ideal" line means that in most counties, the median household income for whites is higher than for blacks. In fact, of the 1,144 counties with complete data (and a sizable black population, at least 5% of white population), median household income was higher for whites than black in 1,107 counties (96.8%). Of the 37 counties where median household income was higher for blacks, 10 were in Puerto Rico.
+						The line of best fit shows the true relationship between black median household income and white median household income: the shift of the line above the "Ideal" line means that in most counties, the median household income for whites is higher than for blacks. In fact, of the 1,144 counties with data for both racial groups (and a black population at least 5% the size of the white population), median household income is higher for whites than black in 1,107 counties (96.8%). 10 of the 37 counties where median household income is higher for blacks are in Puerto Rico.
 					</p><br>
 				</div>
 
 				<div>
 					<a name="education"><h5 style='text-align:center'> III. Education</h5></a>
 					<p>
-						In 1994, former Vice President Al Gore said, "We cannot tolerate - nor in the long run can this nation afford - a society in which some children become fully educated and others do not; nor can we tolerate a society in which some adults have access to training and lifetime education, and others do not." <br><br>Unfortunately, the 26 years since Vice President Gore's speech have not brought equality to American education. While roughly one in three white males and females attain a Bachelor's degree or higher, fewer than one in four black females and fewer than one in five black males attain a Bachelor's degree or higher.
+						In 1994, former Vice President Al Gore said, "We cannot tolerate - nor in the long run can this nation afford - a society in which some children become fully educated and others do not; nor can we tolerate a society in which some adults have access to training and lifetime education, and others do not." <br><br>Unfortunately, the 26 years since Vice President Gore's speech have not brought equal educational attainment to the United States. While roughly one in three white males and females attain a Bachelor's degree or higher, fewer than one in four black females and fewer than one in five black males attain a Bachelor's degree or higher.
 					</p>
 					<a href = 'images/racial_inequality/education_race.png' target="_blank">
 						<img src='images/racial_inequality/education_race.png' style="width: 100%;"><br>
@@ -128,8 +126,8 @@
 					<h5 style='text-align:center'> IV. Conclusions, but not really</h5>
 					<p>
 						There are many questions still to be asked, and many more ways to poke and massage the data to explore pressing questions. This project was mainly explorational- identifing and presenting interesting correlations or major disparities along racial lines. The difference in home ownership rates, for example, cannot be disputed. It is a disparity that exists across the whole of the United States and one that has not improved in 25 years. I've drawn attention to that disparity here, but I do not intend to be conclusive about the origin of the disparity or the proper way to bring about change. Nothing I've produced here will answer where this disparity came from or why. The same applies for incarceration rates: why are incarceration rates so high to begin with? Are white and black populations being charged with the same crimes, and are they given the same sentences? When did inmates first enter the system? How many took plea bargains? What policies or politics are responsible for mass incarceration, and what policy proposals would best reduce imprisonment in the US? These questions are not answered or addressed here, though I wish I had the means and expertise to.<br><br>
-						Education is often celebrated as an "engine of social mobility." As someone who was raised in an education-focused family and is now a college student at Harvard, I've been <span style="text-decoration: line-through;">beat over the head with</span> spoon-fed this mantra particularly vigorously. But how true is it? The data seems to support the hypothesis, but does it matter that education raises incomes if the poorest populations don't have access to education? Or if the poorest populations choose not to continue their educations, or attend lower quality schools? How can we expect those at the bottom to climb the ladder when we've removed the bottom rungs? Or is the ladder adequate, there to be climbed by whoever has the determination? I cannot hope to hypothesize on the health of the ladder based on this data, but it is an important consideration in remedying the disparities between races in the United States.<br><br>
-						Perhaps the most important question I've wrestled with throughout this project where to point responsibility for the trends that appear in the data. The original title of the project was not "racial inequality," it was "systemic racism." In recent months, especially in the wake of the George Floyd protests and revived conversations around confederate monuments, the term "systemic racism" seems to be in vogue. But to what extend is America a racist system? Clearly, "the system" is not entirely blind to race, and (at least in the data presented here) black Americans are worse off as a result- the data is more than obvious about this much. But who is responsible for the system? At what level of the system are these problems best addressed?<br><br>
+						Education is often celebrated as an "engine of social mobility." As someone who was raised in an education-focused family and is now a college student at Harvard, I've been <span style="text-decoration: line-through;">beat over the head with</span> spoon-fed this mantra particularly vigorously. But how true is it? The data seems to support the hypothesis, but does it matter that education raises incomes if the poorest populations don't have access to education? Or if the poorest populations choose not to continue their educations, or attend lower quality schools? How can we expect those at the bottom to climb the ladder when we've removed the bottom rungs? Or is the ladder adequate, there to be climbed by whoever has the determination? I cannot hope to hypothesize on the health of the ladder based on this data, but it is an important consideration in remedying the disparities between racial groups in the United States.<br><br>
+						Perhaps the most important question I've wrestled with throughout this project is where to point responsibility for the trends that appear in the data. The original title of the project was not "racial inequality"; it was "systemic racism." In recent months, especially in the wake of the George Floyd protests and revived conversations around confederate monuments, the term "systemic racism" seems to be in vogue. But to what extend is America a racist system? Clearly, "the system" is not entirely blind to race, and (at least in the data presented here) black Americans are worse off as a result- the data is more than obvious about this much. But who is responsible for the system? At what level of the system are these problems best addressed?<br><br>
 						What data are we missing? For this project, I pulled mostly from the Census and the Census Bureau's American Community Survey, along with some data from the US Dept. of Justice's Bureau of Justice Statistics. All of this data was aggregated at some level- usually by county or nationally. In some cases, finer resolution data exists, but is not available. In an attempt to paint a clearer, more interesting picture of incarceration, I tried to access data from the Natiuonal Corrections Reporting Program, an offender-level dataset that includes not only relevant demographic information, but also criminal history and sentencing information. This data is only available to certain academic researchers in a very specific set of circumstances. For someone like me, working independently from my bedroom (for the curious, no I am not wearing pants), this data is inaccessible. In other cases, the data simply does not exist. What data should we collect to monitor racial equality, and what metrics should we focus on in our quest to create a just system? What are the most important levers to pull on?<br><br>
 						Finally, who are the stakeholders? Obviously every day Americans, black and white alike, but who else is interested in these disparities? How does the prison system and its embedded economic incentives interact with the rest of society? How does the financial system influence home ownership rates? How does middle school funding or access to pre-K affect college graduation rates? But most importantly, <b>who is interested in maintaining these disparities?</b> What can we do to undermine their work? My single conclusion from this project is that none of this is accidental. The data looks the way it does - the system is the way it is - because there are powerful people with a vested interest in keeping it that way.<br><br>
 						I do believe that change is coming, however slowly. 
@@ -154,12 +152,17 @@
 					A friend told me once that he heard from a Rabbi, "we are not responsible for finishing the work of fixing the world." I like the implications of that- we aren't responsible for finishing the work, but we <i>are</i> responsible for starting (or more likely, continuing) the work of fixing the world. My hope is that the data I've presented here will be enough to convince the unconvinced. I do not expect this project to be the difference between equality and inequality, but I hope for at least one person reading this, it had an impact.
 					</p>
 				</div> -->
-
+				<div>
+					<a name="references"><h4>References</h4></a>
+					<p>
+						1. <a class="refs" href="https://www.prisonstudies.org/highest-to-lowest/prison-population-total?field_region_taxonomy_tid=All">World Prison Brief Prison Population Total</a><br>
+					</p>
+				</div>
 				<div>
 					<a name="appendix"><h4>Appendix</h4></a>
 					<h5 style="text-align:center">I. Percentile Ranking</h5>
 					<p>
-						This gif shows the transformation of data from its original distribution on the x-axis to a distribution based on percentile ranking on the x-axis (the y-axis is unchanged). The original data is concentrated on the left side of the graph, but after the transformation the data is evenly distributed across the x-axis. Evening out distributions is a key feature of percentile rankings.
+						This gif shows the transformation of data from its original distribution on the x-axis to a distribution based on percentile ranking on the x-axis (the y-axis is unchanged). The original data is concentrated on the left side of the graph, but after the transformation the data is evenly distributed across the x-axis. Percentile rankings change the data from an absolute comparison to an evenly distributed relative one.
 					</p>
 					<a href = 'images/racial_inequality/ranking_anim.gif' target="_blank">
 						<img src='images/racial_inequality/ranking_anim.gif' style="max-width: 100%;"><br>
@@ -195,7 +198,7 @@
 							</table>
 						</div><br>
 						Another way of thinking about percentile rank is by converting the number to an actual percentage. In the example above, the percentile ranking of the 5.2 is 0.625, or 62.5%. 5.2 is greater than 62.5% of the data in the rankings- there are 8 other values, and 5.2 is larger than 5 of the 8. Notice how the actual values and the distance between them do not matter, only their size relative to each other.<br><br>
-						I worked pretty hard on this project. Thanks for reading this far.<br>
+						I worked pretty hard on this project. Thanks for reading this far!<br>
 						<a href="#education">return to Education section</a>
 					</p>
 				</div>
