@@ -88,3 +88,12 @@ tr{
   color: #000;
 }
 /*# sourceMappingURL=style.css.map */
+
+.footer{
+  position: absolute;
+  bottom: 10px;
+}
+
+.project-slot a {
+  padding-top: 10px;
+}
