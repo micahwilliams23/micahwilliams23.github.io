@@ -1,0 +1,39 @@
+html {
+    overflow-x: hidden;
+    background-color: #222222;
+}
+div {
+    background-color: #222222;
+    align-content: center;
+}
+
+h2 {
+    padding-top: 10px;
+    color: white;
+}
+
+svg {
+    display: block;
+    margin: auto;
+    position: fixed;
+    top: 10%;
+    left: 10%;
+
+}
+
+g{
+    color: white;
+}
+
+text {
+    font-size: 16px;
+}
+
+.axis-title {
+    font-size: 20px;
+    fill: white;
+}
+
+#plot-title {
+    font-size: 24px;
+}
