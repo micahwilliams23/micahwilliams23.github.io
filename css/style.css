@@ -76,7 +76,6 @@ tr{
 .project-slot{
   min-height: 100px;
   padding: auto;
-  border-top: 1px solid #bbb;
   /* border-bottom: 1px solid #bbb; */
 }
 
@@ -84,16 +83,17 @@ tr{
   color: #000;
 }
 
-.project-slot a{
-  color: #000;
-}
-/*# sourceMappingURL=style.css.map */
-
 .footer{
   position: absolute;
   bottom: 10px;
 }
 
 .project-slot a {
-  padding-top: 10px;
+  color: #000;
+  padding-top: 20px;
+}
+
+.project-date {
+  text-align: right;
+  color: #444;
 }
