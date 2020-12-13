@@ -15,18 +15,58 @@
         <script src='https://d3js.org/d3.v6.min.js' defer></script>
         <script src='https://d3js.org/d3-scale.v3.min.js' defer></script>
         <script src='https://d3js.org/d3-fetch.v2.min.js' defer></script>
+        <script src='https://d3js.org/d3-collection.v1.min.js' defer></script>
 
         <!-- d3.js app -->
         <script src='app.js' defer></script>
     </head>
     <body>
+        <!-- <div id='splash-page'>
+            <div class='landing'>
+                <button onclick='showSplash()'>hide</button>
+                <h1>CNN and Fox News</h1>
+                <h4>Micah Williams</h4>
+            </div>
+        </div> -->
         <div class='row'>
-            <div class='container-fluid'>
-                <h2 class='text-center' id='header'>D3.js scatterplot</h2>
-                <button onclick='showPoints()'>show</button>
-                <button onclick='hidePoints()'>hide</button>
-                <button onclick='toMean()'>shift</button>
+            <div class='col-sm-12 col-md-4 scrollbox'>
+               
+                <div class='section'>
+                    <h1>Donald Trump</h1><br><br>
+                    <div class='section-contents'>
+                        <p>
+                            On December 3rd, 2020, Alex Shephard wrote a story for the New Republic titled, <a href='https://newrepublic.com/article/160439/media-trump-election-fraud-video' target='_blank'>"The Media is Finally Tuning Trump Out."</a><br><br>
+                            What does the data say?
+                        </p>
+                    </div>
+                    <div class='section-contents'>
+                        <p>
+                            This plot shows news story titles from Fox News and CNN from September 2015 until December 2020.
+                        </p>
+                    </div>
+                </div>
+                <div class='section'>
+                    <h1>Section 2</h1>
+                    <div class='section-contents'>
+                        <p>
+                            
+                        </p>
+                    </div>
+                </div>
+                <div class='section'>
+                    <section id='s3'><h1>Section 3</h1></section>
+                </div>
+            </div>
+            <div class='col-md-8' id='svg-div'>
                 <svg></svg>
+                <div class='buttons'>
+                    <button onclick='hideContainer()'>hide</button>
+                    <!-- <button onclick='hidePoints()'>hide</button> -->
+                    <button onclick='showContainer()'>container</button>
+                    <button onclick='showPoints()'>points</button>
+                    <button onclick='toMean()'>shift</button>
+                    <button onclick='showLines()'>lines</button>
+                </div>
             </div>
         </div>
     </body>

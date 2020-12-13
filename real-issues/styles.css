@@ -1,24 +1,91 @@
+::-webkit-scrollbar {
+    display: none;
+}
+  
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
 html {
     overflow-x: hidden;
-    background-color: #222222;
-}
+    overflow-y: hidden;
+    background-color: #111;
+ }
+
 div {
-    background-color: #222222;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: #111;
     align-content: center;
+}
+
+#splash-page {
+    height: 100vh;
+    width: 100vw;
+}
+
+.landing {
+    position: relative;
+    height: 10vh;
+    top: 40%;
+    color: white;
+    text-align: center;
+    color: white;
 }
 
 h2 {
     padding-top: 10px;
-    color: white;
+}
+
+#svg-div {
+    display: block;
+    padding: auto;
 }
 
 svg {
-    display: block;
+    display: flex;
     margin: auto;
-    position: fixed;
-    top: 10%;
-    left: 10%;
+    top: 25px;
+    position:relative;
+}
 
+.buttons {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+.scrollbox {
+    display: block;
+
+    right: 0;
+    height: 100vh;
+    padding-right: 0px;
+    margin-right: 0px;
+    text-align: center;
+    overflow-y: scroll;
+}
+
+.section {
+    align-items: center;
+    min-height: 130%;
+    color: white;
+    margin-left: 25px;
+    margin-top: 45vh;
+}
+
+.section-contents p {
+    margin-top: 100px;
+    text-align: left;
+    text-justify: newspaper;
+    font-family: helvetica, sans-serif;
+    font-size: 20px;
+}
+
+.section-contents a {
+    text-decoration: none;
+    color: #d1d1f1;
 }
 
 g{
