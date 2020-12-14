@@ -10,16 +10,6 @@ const trump_weeks = d3.csv('data/trump_averages.csv', function(x){
     };
 })
 
-const trump_months = d3.csv('data/trump_months.csv', function(x){
-    return {
-        network: x.network,
-        month: +x.month,
-        n: +x.n,
-        date: Date(x.date)
-    };
-})
-
-
 // set the dimensions and margins of the graph
 var margin = {top: 50, right: 45, bottom: 30, left: 45},
 width = window.innerWidth * 0.65 - margin.left - margin.right,
