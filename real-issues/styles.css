@@ -15,6 +15,7 @@ html {
  }
 
 div {
+    /* font-family: helvetica, sans-serif; */
     font-family: Georgia, 'Times New Roman', Times, serif;
     background-color: #111;
     align-content: center;
@@ -39,7 +40,9 @@ h2 {
 }
 
 #svg-div {
-    display: block;
+    display: inline-block;
+    width:70vw;
+    position: fixed;
     padding: auto;
 }
 
@@ -56,31 +59,48 @@ svg {
     right: 0;
 }
 
-.scrollbox {
-    display: block;
-
-    right: 0;
+#sections {
+    display: inline-block;
+    position: relative;
+    z-index: 99;
+    width: 30vw;
     height: 100vh;
-    padding-right: 0px;
     margin-right: 0px;
     text-align: center;
     overflow-y: scroll;
-}
-
-.section {
     align-items: center;
-    min-height: 130%;
     color: white;
     margin-left: 25px;
-    margin-top: 45vh;
+    padding-right: 20px;
+    /* border-right: 1px dashed white; */
 }
 
-.section-contents p {
-    margin-top: 100px;
-    text-align: left;
-    text-justify: newspaper;
-    font-family: helvetica, sans-serif;
+
+.section-header span {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 50px;
+}
+
+.section-contents { 
+    margin-top: 35vh;
+    margin-bottom: 35vh;
+}
+
+.section-header {
+    padding-top: 40vh;
+    margin-top: 50px;
+    padding-bottom: 0;
+    height: 80vh;
+    position:relative;
+    line-height: 40px;
     font-size: 20px;
+}
+.section-contents p {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: left;
+    text-justify:auto;
+    font-size: 20px;
+    line-height: 30px;
 }
 
 .section-contents a {

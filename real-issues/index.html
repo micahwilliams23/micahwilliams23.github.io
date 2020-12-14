@@ -8,66 +8,81 @@
         <!-- my css -->
         <link rel='stylesheet' href='styles.css'>
         
-        <!-- boostrap -->
-        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1' crossorigin='anonymous'>
-        
-        <!-- d3.js and d3 scale -->
+        <!-- d3.js and other d3 libraries -->
         <script src='https://d3js.org/d3.v6.min.js' defer></script>
         <script src='https://d3js.org/d3-scale.v3.min.js' defer></script>
         <script src='https://d3js.org/d3-fetch.v2.min.js' defer></script>
         <script src='https://d3js.org/d3-collection.v1.min.js' defer></script>
+        <script src='https://d3js.org/d3-selection.v1.min.js'> defer</script> 
 
         <!-- d3.js app -->
         <script src='app.js' defer></script>
     </head>
     <body>
-        <!-- <div id='splash-page'>
-            <div class='landing'>
-                <button onclick='showSplash()'>hide</button>
-                <h1>CNN and Fox News</h1>
-                <h4>Micah Williams</h4>
+        <div id='sections'>
+            <div class='section-contents section-header'>
+                <span>Donald Trump</span>
+                <br>a story so good, they told it 30,000 times
             </div>
-        </div> -->
-        <div class='row'>
-            <div class='col-sm-12 col-md-4 scrollbox'>
-               
-                <div class='section'>
-                    <h1>Donald Trump</h1><br><br>
-                    <div class='section-contents'>
-                        <p>
-                            On December 3rd, 2020, Alex Shephard wrote a story for the New Republic titled, <a href='https://newrepublic.com/article/160439/media-trump-election-fraud-video' target='_blank'>"The Media is Finally Tuning Trump Out."</a><br><br>
-                            What does the data say?
-                        </p>
-                    </div>
-                    <div class='section-contents'>
-                        <p>
-                            This plot shows news story titles from Fox News and CNN from September 2015 until December 2020.
-                        </p>
-                    </div>
-                </div>
-                <div class='section'>
-                    <h1>Section 2</h1>
-                    <div class='section-contents'>
-                        <p>
-                            
-                        </p>
-                    </div>
-                </div>
-                <div class='section'>
-                    <section id='s3'><h1>Section 3</h1></section>
-                </div>
+            <div class='section-contents'>
+                <p>
+                    On December 3rd, 2020, Alex Shephard wrote a story for the New Republic titled, <a href='https://newrepublic.com/article/160439/media-trump-election-fraud-video' target='_blank'>"The Media is Finally Tuning Trump Out."</a><br><br>
+                    What does the data say?
+                </p>
             </div>
-            <div class='col-md-8' id='svg-div'>
-                <svg></svg>
-                <div class='buttons'>
-                    <button onclick='hideContainer()'>hide</button>
-                    <!-- <button onclick='hidePoints()'>hide</button> -->
-                    <button onclick='showContainer()'>container</button>
-                    <button onclick='showPoints()'>points</button>
-                    <button onclick='toMean()'>shift</button>
-                    <button onclick='showLines()'>lines</button>
-                </div>
+            <div class='section-contents'>
+                <p>
+                    This plot shows the percentage of news story titles from Fox News and CNN from September 2015 until December 2020 that contain the word 'trump'.<br><br>
+                    For example, during the week of Sep. 3, 2015, the farthest-left blue dot, CNN mentioned Trump 34 times in 204 titles: 16.7% of the time.<br><br>
+                    On many occasions, Trump was mentioned in more than 50% of all the stories in a week.
+                </p>
             </div>
+            <div class='section-contents'>
+                <p>
+                    While it is clear that CNN and Fox News talk about Trump very frequently, there is a lot of noise in this data. Changing the y-axis from raw data to a four-week rolling average makes trends a little easier to see.
+                </p>
+            </div>
+            <div class='section-contents'>
+                <p>
+                    Notice how as an election nears in both 2016 and 2020, both networks mention Trump more frequently. Despite occasional flareups, there does seem to be some Trump fatigue from the beginning of 2017 until early 2020.
+                </p>
+            </div>
+            <div class='section-contents'>
+                <p>
+                    In terms of raw stories, though, it's hard to see a slowdown.<br><br>
+                    While the <i>percentage</i> of CNN stories mentioning Trump might seem somewhat consistent or even slightly decreasing, the total number of stories published (or with published transcripts) is increasing.<br><br>
+                    As a result, CNN is pumping out just as many Trump stories as ever. From August to December 2020, CNN averaged over 226 Trump stories per week.
+                </p>
+            </div>
+            <div class='section-contents'>
+                <p>
+                    In total since September 2015, CNN has mentioned Trump in a story title 28,107 times, and Fox News has mentioned Trump 1592 times.<br><br>
+                    It is important to note that the sample sizes for the networks are vastly different in size.<br><br>
+                    All of this data was scraped from the networks' respective sites, and the number of stories I found isn't consistent across network or time period. Using Python scripts, I was able to scrape <strong>143,425</strong> story titles from <strong>38</strong> shows on CNN's website. From Fox News, I was only able to access <strong>5,237</strong> story titles from <strong>13</strong> shows.
+                </p>
+            </div>
+            <div class='section-contents section-header'>
+                <span>CNN</span>
+                <br>cable news for idiots
+            </div>
+            <div class='section-contents'>
+                <p>
+                    
+                </p>
+            </div>
+            <div class='section-contents section-header'>
+                <span>III</span>
+                <br>wow
+            </div>
+            <div class='section-contents'>
+                <p>
+                    
+                </p>
+            </div>
+        </div>
+        
+        <div id='svg-div'>
+            <svg></svg>
         </div>
     </body>
 </html>
