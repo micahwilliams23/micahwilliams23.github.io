@@ -14,7 +14,7 @@ const trump_weeks = d3.csv('data/trump_averages.csv', function(x){
 var margin = {top: 50, right: 45, bottom: 30, left: 45},
 width = window.innerWidth * 0.65 - margin.left - margin.right,
 height = window.innerHeight - margin.top - margin.bottom;
-    
+
 function hidePoints(){
 
     // transition points
@@ -37,26 +37,76 @@ function hidePoints(){
 
 };
 
+function deleteSplash(){
+
+    // find splash page texts and split by character into arrays
+    var d = d3.select('.maintext').text().split('')
+    var e = d3.selectAll('.subtext').text().split('')
+
+    // for each character in array:
+    for (i in d3.range(0, d.length)){
+
+        // set delay between function calls
+        setTimeout(function(){
+
+            // replace text with text minus last character
+            d3.selectAll('.maintext')
+            .text(function(){
+                var p = d.pop()
+                var remain = d.join('')
+                return remain;
+            })
+
+        // make entire function call last 1 second 
+        }, 1000 / d.length * i);
+    }
+
+    // repeat for subtext
+    for (i in d3.range(0, e.length)){
+        setTimeout(function(){
+            d3.selectAll('.subtext')
+            .text(function(){
+                var p = e.pop()
+                var remain = e.join('')
+                return remain;
+            })
+        }, 1000 / e.length * i);
+    }
+
+    // remove splash element
+    setTimeout(function(){
+            d3.select('#splash-page')
+            .remove()
+    }, 1000);
+}
+
+var splash = true;
 function showContainer(){
-    
-    d3.select('#splash-page')
-        .remove()
+
+    if (splash == true) {
+        deleteSplash();
+    }
 
     hidePoints()
     container.selectAll('.yaxis1')
         .transition()
         .duration(0)
-        .attr('opacity', 1);
+        .attr('opacity', 1)
+        .delay(1000);
 
     container.selectAll('.yaxis2')
         .transition()
         .duration(0)
-        .attr('opacity', 0);
+        .attr('opacity', 0)
+        .delay(1000);
 
     container
         .transition()
         .duration(500)
         .attr('opacity', 1)
+        .delay(1500)
+
+    splash = false;
 };
 
 function showPoints(){
@@ -269,6 +319,7 @@ dispatch.on('active', function(index){
         emptyFunction,
         showContainer,
         showPoints,
+        emptyFunction,
         toMean,
         showLines1,
         showLines2,

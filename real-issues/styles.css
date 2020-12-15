@@ -26,39 +26,31 @@ html {
 .splash-text {
     position: relative;
     top: 40vh;
-    left: 15vw;
     font-size: 30px;
 }
-.splash-text span {
+.splash-text .maintext {
     font-size: 50px;
     font-weight: bolder;
 }
 
 #scroll-text {
-    background-color: rgb(191, 94, 94);
+    border: 3px solid red;
+    box-shadow: -12px 12px #75c0fd;
     height: 10vh;
+    line-height: 5vh;
     margin-top: 45vh;
     margin-bottom: 0;
+    margin-left: 20px;
 }
-
+/* 
 #scroll-text h3 {
     line-height: 10vh;
-}
+} */
 
 div {
-    /* font-family: helvetica, sans-serif; */
     font-family: Georgia, 'Times New Roman', Times, serif;
     background-color: #111;
     align-content: center;
-}
-
-.landing {
-    position: relative;
-    height: 10vh;
-    top: 40%;
-    color: white;
-    text-align: center;
-    color: white;
 }
 
 h2 {
@@ -97,7 +89,6 @@ svg {
     align-items: center;
     color: white;
     margin-left: 25px;
-    padding-right: 20px;
 }
 
 
@@ -109,14 +100,16 @@ svg {
 .section-contents { 
     margin-top: 35vh;
     margin-bottom: 35vh;
-    border: 1px solid red;
+    margin-left: 20px;
+    border: 3px solid #75c0fd;
+    box-shadow: -16px 16px#bb1417;
+    padding: 20px;
 }
 
 .section-header {
     margin-top: 45vh;
     margin-bottom: 45vh;
     padding: 20px;
-    /* height: 80vh; */
     position:relative;
     line-height: 40px;
     font-size: 20px;
