@@ -1,3 +1,4 @@
+// load in data
 const trump_weeks = d3.csv('data/trump_averages.csv', function(x){
     return {
         network: x.network,
