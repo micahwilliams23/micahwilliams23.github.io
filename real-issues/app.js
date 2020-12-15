@@ -10,11 +10,21 @@ const trump_weeks = d3.csv('data/trump_averages.csv', function(x){
     };
 })
 
+const trump_months = d3.csv('data/trump_months.csv', function(x){
+    return {
+        network: x.network,
+        month: +x.month,
+        n: +x.n,
+        date: Date(x.date)
+    };
+})
+
+
 // set the dimensions and margins of the graph
 var margin = {top: 50, right: 45, bottom: 30, left: 45},
 width = window.innerWidth * 0.65 - margin.left - margin.right,
 height = window.innerHeight - margin.top - margin.bottom;
-
+    
 function hidePoints(){
 
     // transition points
@@ -37,76 +47,23 @@ function hidePoints(){
 
 };
 
-function deleteSplash(){
-
-    // find splash page texts and split by character into arrays
-    var d = d3.select('.maintext').text().split('')
-    var e = d3.selectAll('.subtext').text().split('')
-
-    // for each character in array:
-    for (i in d3.range(0, d.length)){
-
-        // set delay between function calls
-        setTimeout(function(){
-
-            // replace text with text minus last character
-            d3.selectAll('.maintext')
-            .text(function(){
-                var p = d.pop()
-                var remain = d.join('')
-                return remain;
-            })
-
-        // make entire function call last 1 second 
-        }, 1000 / d.length * i);
-    }
-
-    // repeat for subtext
-    for (i in d3.range(0, e.length)){
-        setTimeout(function(){
-            d3.selectAll('.subtext')
-            .text(function(){
-                var p = e.pop()
-                var remain = e.join('')
-                return remain;
-            })
-        }, 1000 / e.length * i);
-    }
-
-    // remove splash element
-    setTimeout(function(){
-            d3.select('#splash-page')
-            .remove()
-    }, 1000);
-}
-
-var splash = true;
 function showContainer(){
-
-    if (splash == true) {
-        deleteSplash();
-    }
 
     hidePoints()
     container.selectAll('.yaxis1')
         .transition()
         .duration(0)
-        .attr('opacity', 1)
-        .delay(1000);
+        .attr('opacity', 1);
 
-    container.selectAll('.yaxis2')
+        container.selectAll('.yaxis2')
         .transition()
         .duration(0)
-        .attr('opacity', 0)
-        .delay(1000);
+        .attr('opacity', 0);
 
     container
         .transition()
         .duration(500)
         .attr('opacity', 1)
-        .delay(1500)
-
-    splash = false;
 };
 
 function showPoints(){
@@ -148,12 +105,16 @@ function toMean(){
         .transition()
         .attr('fill-opacity', '1')
         .text('Percent of CNN and Fox News Titles Containing \'Trump\' by week, 4-Week Rolling Average')
-    
-    container.selectAll('.line1')
-        .transition()
-        .duration(500)
-        .attr('stroke-opacity', 0)
-        .delay(500);
+
+        setTimeout(
+            function(){
+                container.selectAll('.line1')
+                    .transition()
+                    .duration(1000)
+                    .attr('stroke-opacity', 0)
+                },
+            1000
+        );
 };
 
 function showLines1(){
@@ -179,17 +140,22 @@ function showLines1(){
         .duration(500)
         .attr('y1', d => yScale(d))
         .attr('y2', d => yScale(d))
-    container.selectAll('.point')
-        .transition()
-        .duration(500)
-        .attr('opacity', 0)
-        .delay(data => 500 + delayScale(data.week));
 
-    container.selectAll('.yaxis1')
-        .transition()
-        .duration(500)
-        .attr('opacity', 1)
-        .delay(500);
+    setTimeout(
+        function(){
+            container.selectAll('.point')
+                .transition()
+                .duration(500)
+                .attr('opacity', 0)
+                .delay(data => delayScale(data.week));
+
+            container.selectAll('.yaxis1')
+                .transition()
+                .duration(500)
+                .attr('opacity', 1);
+            },
+            500
+    );
 };
 
 function showLines2(){
@@ -228,19 +194,23 @@ function showLines2(){
         .transition()
         .attr('fill-opacity', '1')
         .text('Total Number of CNN and Fox News Titles Containing \'Trump\' since Sep. 2015')
-    
-    container.selectAll('.line2')
-        .transition()
-        .duration(500)
-        .attr('opacity', 1)
 
-    container.selectAll('.line2')
-        .transition()
-        .duration(500)
-        .attr('opacity', 1)
-        .attr('fill-opacity', 0.5)
-        .delay(500);
-};
+    setTimeout(
+        function(){
+            container.selectAll('.line2')
+                .transition()
+                .duration(500)
+                .attr('opacity', 1)
+                .attr('fill-opacity', 0.5);
+
+            container.selectAll('.yaxis2')
+                .transition()
+                .duration(500)
+                .attr('opacity', 1);
+            },
+            500
+    );
+}
 
 function hideContainer(){
     container
@@ -274,28 +244,14 @@ function showCircles(){
         .attr('opacity', 0);
 }
 
-function hideCircles(){
-
-    container.select('.totals')
-        .transition()
-        .duration(500)
-        .attr('opacity', 0)
-        .delay(250);
-
-    container.selectAll('.totalCircles')
-        .transition()
-        .duration(500)
-        .attr('r', data => 1);
-}
-
-function emptyFunction(){};
+function noTransition(){};
 
 // set up scroller... many thanks to https://vallandingham.me/scroller.html
 // find position of top of sections
 const sections = d3.selectAll('.section-contents')
 sectionPositions = [];
 var startPos;
-var lastIndex;
+var currentIndex;
 
 sections.each(function(d, i){
     var top = this.getBoundingClientRect().top;
@@ -316,15 +272,14 @@ var dispatch = d3.dispatch('active', 'progress')
 dispatch.on('active', function(index){
 
     transitions = [
-        emptyFunction,
+        noTransition,
+        hideContainer,
         showContainer,
         showPoints,
-        emptyFunction,
         toMean,
         showLines1,
         showLines2,
-        showCircles,
-        hideCircles
+        showCircles
     ]
 
     transitions[index]();
@@ -334,26 +289,21 @@ dispatch.on('active', function(index){
 function position(){
 
     // slightly offset position
-    var pos = this.scrollTop + window.innerHeight * - 0.5;
+    // var pos = window.pageYOffset - 10;
+    var pos = this.scrollTop + window.innerHeight * 0.5;
 
     // find index of current section box
-    var currentIndex = d3.bisect(sectionPositions, pos);
+    var sectionIndex = d3.bisect(sectionPositions, pos);
 
     // keep index without bounds of array (d3.bisect can return value larger than array)
-    currentIndex = Math.min(sections.size() - 1, currentIndex);
+    sectionIndex = Math.min(sections.size() - 1, sectionIndex);
 
     // if current section has changed,
-    if(currentIndex !== lastIndex){
+    if(currentIndex !== sectionIndex){
 
-        // find which sections have been scrolled past
-        var sign = (currentIndex - lastIndex) < 0 ? -1 : 1;
-        var scrolledSections = d3.range(lastIndex + sign, currentIndex + sign, sign);
-        
-        // call transition function for each section
-        scrolledSections.forEach(function(section){
-            dispatch.call('active', container, section);
-        });
-        lastIndex = currentIndex;
+        // send new index to 'active' method using event dispatching
+        dispatch.call('active', this, sectionIndex);
+        currentIndex = sectionIndex;
     };
 };
 
@@ -439,36 +389,6 @@ svgbase.append('text')
     .attr('x', 0)
     .attr('y', margin.top / 2);
 
-const legend = [
-    {network: 'CNN', x: 2016.05, y: 0.58},
-    {network: 'Fox News', x: 2016.05, y: 0.56}
-]
-
-// add legend
-svgbase.selectAll('.legendRect')
-    .data(legend)
-    .enter()
-    .append('rect')
-    .classed('legendRect', true)
-    .attr('x', data => xScale(data.x) + margin.left)
-    .attr('y', data => yScale(data.y) - 10)
-    .attr('width', 10)
-    .attr('height', 10)
-    .attr('fill', data => colorScale(data.network))
-
-// add legend
-svgbase.selectAll('.legendText')
-    .data(legend)
-    .enter()
-    .append('text')
-    .classed('legendText', true)
-    .attr('x', data => xScale(data.x) + margin.left + 12)
-    .attr('y', data => yScale(data.y))
-    .attr('width', 15)
-    .attr('height', 15)
-    .attr('fill', 'white')
-    .text(data => data.network)
-
 trump_weeks.then(function(d){
 
     // add points
@@ -536,15 +456,10 @@ trump_weeks.then(function(d){
 
     // add network totals data
     var networkTotals = [
-        {network: 'CNN', value: 143425, f0: 0.5},
+        {network: 'CNN', value: '143425', f0: 0.5},
         {network: 'CNN', value: 28107, f0: 1},
         {network: 'Fox News', value: 5237, f0: 0.5},
         {network: 'Fox News', value: 1592, f0: 1},
-    ]
-
-    var networkLabels = [
-        {network: 'CNN', value: 143425},
-        {network: 'Fox News', value: 5237}
     ]
 
     // add network totals circles
@@ -576,10 +491,6 @@ trump_weeks.then(function(d){
         .append('text')
         .classed('totalText', true)
         .attr('x', data => width / 4 + xBands(data.network))
-        .attr('fill', 'white')
-        .attr('text-anchor', 'middle')
-        .attr('font-weight', 'bolder')
-        .attr('font-family', 'Helvetica')
         .attr('y', function(data){
             if (data.value == 1592) {
                 return height / 2 + radiusScale(1592);
@@ -587,25 +498,12 @@ trump_weeks.then(function(d){
                 return height / 2 + radiusScale(28107) + margin.bottom;
             } else {return height / 2};
         })
-        .text(data => data.value.toString().replace(/(\d{3})$/, ',$1'))
-    
-    container.select('.totals')
-        .selectAll('.totalLabels')
-        .data(networkLabels)
-        .enter()
-        .append('text')
-        .classed('totalLabels', true)
-        .attr('x', data => width / 4 + xBands(data.network))
+        .text(data => data.value)
         .attr('fill', 'white')
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bolder')
         .attr('font-family', 'Helvetica')
-        .attr('y', function(data){
-            return height / 2 - radiusScale(data.value) - 20;    
-        })
-        .text(data => data.network)
-        
+
     container.select('.totals')
         .attr('opacity', 0)
-
 })
