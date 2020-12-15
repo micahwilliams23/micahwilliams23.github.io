@@ -14,25 +14,43 @@ html {
     background-color: #111;
  }
 
+#splash-page {
+    height: 100vh;
+    width: 60vw;
+    position: fixed;
+    left: 40vw;
+    color: white;
+    z-index: 99;
+}
+
+.splash-text {
+    position: relative;
+    top: 40vh;
+    font-size: 30px;
+}
+.splash-text .maintext {
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+#scroll-text {
+    border: 3px solid red;
+    box-shadow: -12px 12px #75c0fd;
+    height: 10vh;
+    line-height: 5vh;
+    margin-top: 45vh;
+    margin-bottom: 0;
+    margin-left: 20px;
+}
+/* 
+#scroll-text h3 {
+    line-height: 10vh;
+} */
+
 div {
-    /* font-family: helvetica, sans-serif; */
     font-family: Georgia, 'Times New Roman', Times, serif;
     background-color: #111;
     align-content: center;
-}
-
-#splash-page {
-    height: 100vh;
-    width: 100vw;
-}
-
-.landing {
-    position: relative;
-    height: 10vh;
-    top: 40%;
-    color: white;
-    text-align: center;
-    color: white;
 }
 
 h2 {
@@ -62,7 +80,7 @@ svg {
 #sections {
     display: inline-block;
     position: relative;
-    z-index: 99;
+    z-index: 25;
     width: 30vw;
     height: 100vh;
     margin-right: 0px;
@@ -71,8 +89,6 @@ svg {
     align-items: center;
     color: white;
     margin-left: 25px;
-    padding-right: 20px;
-    /* border-right: 1px dashed white; */
 }
 
 
@@ -84,13 +100,16 @@ svg {
 .section-contents { 
     margin-top: 35vh;
     margin-bottom: 35vh;
+    margin-left: 20px;
+    border: 3px solid #75c0fd;
+    box-shadow: -16px 16px#bb1417;
+    padding: 20px;
 }
 
 .section-header {
-    padding-top: 40vh;
-    margin-top: 50px;
-    padding-bottom: 0;
-    height: 80vh;
+    margin-top: 45vh;
+    margin-bottom: 45vh;
+    padding: 20px;
     position:relative;
     line-height: 40px;
     font-size: 20px;
