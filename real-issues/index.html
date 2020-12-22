@@ -3,7 +3,7 @@
     <head>
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title> CNN and Fox News: What Are They Talking About?</title>
+        <title>Cable News: Distraction Machines</title>
         
         <!-- my css -->
         <link rel='stylesheet' href='styles.css'>
@@ -21,7 +21,7 @@
     <body>
         <div id='splash-page'>
             <div class='splash-text'>
-                <span class='maintext'>CNN tells me bedtime stories</span><br>
+                <span class='maintext'>Cable News: Distraction Machines</span><br>
                 <span class='subtext'>a data science project about the news</span>
             </div>
         </div>
@@ -31,19 +31,19 @@
             </div>
             <div class='section-contents section-header'>
                 <span>Donald Trump</span>
-                <br>a story so good, they told it 30,000 times
+                <br>a story so good, they told it 40,000 times
             </div>
             <div class='section-contents'>
                 <p>
-                    On December 3rd, 2020, Alex Shephard wrote a story for the New Republic titled, <a href='https://newrepublic.com/article/160439/media-trump-election-fraud-video' target='_blank'>"The Media is Finally Tuning Trump Out."</a><br><br>
+                    On December 3rd, 2020, Alex Shephard wrote a story for the New Republic titled, <a href='https://newrepublic.com/article/160439/media-trump-election-fraud-video' target='_blank'>"The Media is Finally Tuning Trump Out."</a><sup>1</sup><br><br>
                     I'm not so sure that's true, but if it is, it has been a long time coming.
                 </p>
             </div>
             <div class='section-contents'>
                 <p>
-                    This plot shows the percentage of news story titles from Fox News and CNN from September 2015 until December 2020 that contain the word 'trump'.<br><br>
-                    For example, during the week of Sep. 3, 2015, the farthest-left blue dot, CNN mentioned Trump 34 times in 204 titles: 16.7% of the time.<br><br>
-                    On many occasions, Trump was mentioned in more than 50% of all the stories in a week. Donald Trump (plus Ivanka, Don Jr., Eric, and the rest of the crew) dominated news coverage over the last five years.
+                    This plot shows the percentage of headlines from Fox News and CNN from September 2015 until December 2020 that contain the word 'trump'.<br><br>
+                    For example, during the week of Sep. 10, 2015, the farthest-left blue dot, CNN mentioned Trump 37 times in 222 headlines: 16.7% of the time.<br><br>
+                    On many occasions, Trump was mentioned in more than 50% of all the headlines in a week. Donald Trump (plus Ivanka, Don Jr., Eric, and the rest of the crew) dominated news coverage over the last five years.
                 </p>
             </div>
             <div class='section-contents'>
@@ -53,39 +53,113 @@
             </div>
             <div class='section-contents'>
                 <p>
-                    Notice how as an election nears in both 2016 and 2020, both networks mention Trump more frequently. Despite occasional flareups, there does seem to be some Trump fatigue from the beginning of 2017 until early 2020.
+                    Notice how as an election nears in both 2016 and 2020, both networks mention Trump more frequently. And despite occasional flareups, there does seem to be some Trump fatigue slowly coming on from the beginning of 2017 until early 2020 until coverage picks up again for the election.<br><br>
+                    But remember: in a typical week about 1 out of every 3 or 4 headlines was about Trump. Fox News and CNN might have lost a bit of the fire throughout Trump's term as President, but they never really got tired of talking about him.
                 </p>
             </div>
             <div class='section-contents'>
                 <p>
-                    In terms of raw stories, though, it's hard to see a slowdown.<br><br>
-                    While the <i>percentage</i> of CNN stories mentioning Trump might seem somewhat consistent or even slightly decreasing, the total number of stories published (or with published transcripts) is increasing.<br><br>
-                    As a result, CNN is pumping out just as many Trump stories as ever. From August to December 2020, CNN averaged over 226 Trump stories per week.
+                    And in terms of stories, it's hard to see a slowdown.<br><br>
+                    While the <i>percentage</i> of CNN headlines mentioning Trump might seem somewhat consistent or even slightly decreasing, the total number of headlines mentioning Trump has stayed high. Really high.<br><br>
+                    As a result, CNN is pumping out just as many Trump stories as ever. From August to December 2020, CNN averaged over 296 Trump stories <i>per week</i>.
                 </p>
             </div>
             <div class='section-contents'>
                 <p>
-                    In total since September 2015, CNN has mentioned Trump in a story title 28,107 times, and Fox News has mentioned Trump 1,592 times.<br><br>
+                    For Fox News, it's a similar story. The smaller sample size makes it all the more difficult to decipher a trend, but the number of Trump headlines over the last few months is mostly consistent with previous years.
+                </p>
+            </div>
+            
+            <div class='section-contents'>
+                <p>
+                    In total since September 2015, CNN has mentioned Trump in a story title 38,702 times, and Fox News has mentioned Trump 1,692 times.<br><br>
                     It is important to note that the sample sizes for the networks are vastly different in size.<br><br>
-                    All of this data was scraped from the networks' respective sites, and the number of stories I found isn't consistent across network or time period. Using Python scripts, I was able to scrape <strong>143,425</strong> story titles from <strong>38</strong> shows on CNN's website. From Fox News, I was only able to access <strong>5,237</strong> story titles from <strong>13</strong> shows.
+                    All of this data was scraped from the networks' respective sites, and the number of stories I found isn't consistent across network or time period. Using Python scripts, I was able to scrape <strong>186,966</strong> story titles from <strong>38</strong> shows on CNN's website. From Fox News, I was able to access <strong>5,957</strong> story titles from <strong>14</strong> shows.
                 </p>
-            </div>
-            <div class='section-contents section-header'>
-                <span>CNN</span>
-                <br>cable news for idiots
             </div>
             <div class='section-contents'>
                 <p>
-                    
+                    The media may finally be tuning Trump out like Alex Shephard said, but either way, one thing is clear: for the last five years, the media has spent far too much time focusing on Trump &mdash;
+                    at the expense of other important issues.
                 </p>
             </div>
             <div class='section-contents section-header'>
-                <span>III</span>
-                <br>wow
+                <span>Hot Words</span>
+                <br>What's Russia up to these days?
             </div>
             <div class='section-contents'>
                 <p>
+                    According to 2019 Nielsen ratings, CNN averaged around 972,000 viewers for its prime time programming.<sup>2</sup> However, in November 2020, with Americans trapped at home due to the coronavirus and eyes glued to never-ending election coverage, CNN's total average primetime viewership jumped to 1.78 million.<sup>3</sup><br><br>
+                    When a million plus people tune into CNN, what do they see?
+                </p>
+            </div>
+            <div class='section-contents'>
+                <p>
+                    Notice how almost all of the top words are related to politics: Biden, Clinton, Obama, Trump, white, house, impeachment, election, campaign...<br><br>
+                    Hover your cursor over a bar to see a random selection of CNN headlines containing the word. Click 0 to reset the rankings to the top 10.
+                    <div class='buttons cnn'>
+                        <button onclick='barDown("CNN")'>-10</button>
+                        <button onclick='resetBar0("CNN")'>0</button>
+                        <button onclick='barUp("CNN")'>+10</button>
+                    </div>
+                </p>
+            </div>
+            <div class='section-contents'>
+                <p>
+                    The top words for Fox News are similar, though there are a few words that rank highly for one network but not for the other.<br><br>For example, #19 for Fox News is 'left.' Fox News programs often refer to 'the left' as a sort of liberal monolith, and use terms like 'leftists' and 'the radical left' much more often than CNN. The Fox News leaderboard also includes [Lindsey] 'graham', [Nancy] 'pelosi', and [James] 'comey', none of which appear in the top 50 words for CNN.
+                    <div class='buttons fox'>
+                        <button onclick='barDown("Fox News")'>-10</button>
+                        <button onclick='resetBar0("Fox News")'>0</button>
+                        <button onclick='barUp("Fox News")'>+10</button>
+                    </div>
                     
+                </p>
+            </div>
+            <div class='section-contents'>
+                <p>
+                    Coincidentally, #10 for both CNN and Fox News is 'impeachment'&mdash; though there is typically a stark difference in sentiment between a CNN 'impeachment' headline and a Fox News 'impeachment' headline...<br><br>
+                    One network ran a story titled: 'the Impeachment Circus'. The other wrote about 'White House in Crisis: The Impeachment Inquiry.' I'll let you guess who's who.
+                </p>
+            </div>
+            <div class='section-contents'>
+                <p>
+                    Ironically (though perhaps not surprising), #4 for Fox News is 'media.' The majority of Fox News headlines about 'the media' have a sprinkling of negative sentiment, especially when the headline is about coverage that is opposite the Fox News narrative.<br><br>
+                    All this coming from the network that, in 2019, had <span style='text-decoration:underline'>seven of the top ten highest-rated cable news programs</span><sup>2</sup>. The media is you, Fox News.
+                    <div class='buttons fox'>
+                        <button onclick='barDown("Fox News")'>-10</button>
+                        <button onclick='resetBar0("Fox News")'>0</button>
+                        <button onclick='barUp("Fox News")'>+10</button>
+                    </div>
+                </p>
+            </div>
+            <div class='section-contents'>
+                <p>
+                    Our world is complex, constantly changing, and, in many ways, confusing. Countless events of massive consequence are happening every day both here at home, and abroad &mdash; an obesity epidemic in parallel with hundreds of millions of people without food security; rising temperatures and sea levels squeezing our planet's most vulnerable populations; our elected representatives selling out to the highest bidder; worsening economic and social equality; multinational corporations manipulating people with divisive politics; surveillance capitalism; the list truly goes on and on.
+                </p>
+            </div>
+            <div class='section-contents'>
+                <p>
+                    With everything happening in the world &ndash; events that demand their fair share of the media spotlight &ndash; how do news corporations like Fox News and CNN have so much time to focus on Trump and political infighting in Congress? A look through trends in coverage suggest that these massive news corporations do not exist to inform us, but to distract us from what is really happening in the world.
+                </p>
+            </div>
+            <div class='section-contents section-header'>
+                **EXPERIMENTAL**<br>
+                <span>Explore the data</span>
+                <br>What's on your mind?
+            </div>
+            <div class='section-contents'>
+                <p>
+                    Type in a word or phrase below to generate a plot showing how frequently the term was mentioned by Fox News and CNN.
+                </p>
+                <label for='search'>Search: </label><input type='text' id='search' name='search' placeholder='ex: climate change'><button onclick='searchPlot()'>a</button>
+            </div>
+            <div class='section-contents section-header'>
+                <span>Sources</span>
+                <br>
+                <p>
+                    1. <a href='https://newrepublic.cam/article/160439/media-trump-election-fraud-video'>The Media Is Finally Tuning Trump Out (New Republic)</a><br>
+                    2. <a href='https://www.forbes.com/sites/markjoyella/2019/12/11/fox-news-ends-2019-with-highest-rated-prime-time-ratings-ever/?sh=40f4602b3347'>Fox News Ends 2019 With Biggest Prime Time Ratings Ever (Forbes)</a><br>
+                    3. <a href='https://dailycaller.com/2020/12/07/cnn-huge-ratings-november-growth-total-viewers-key-demographic-win/'>CNN Earns Huge Ratings For November With 135% Growth In Total Viewers (Daily Caller)</a>
                 </p>
             </div>
         </div>
