@@ -676,6 +676,19 @@ function selectRandom(A, n){
     return result;
 }
 
+function hideSearchPlot(){
+    
+    svgbase
+        .transition()
+        .duration(500)
+        .attr('opacity', 0)
+
+    container.selectAll('.yaxis4')
+        .transition()
+        .duration(0)
+        .attr('opacity', 0);
+}
+
 function showSearchPlot(){
     
     svgbase
@@ -846,9 +859,9 @@ dispatch.on('active', function(index){
         emptyFunction,
         resetBar0,
         emptyFunction,
-        emptyFunction,
+        showBars,
+        hideSearchPlot,
         hideBars,
-        emptyFunction,
         showSearchPlot
     ]
 
