@@ -860,7 +860,6 @@ dispatch.on('active', function(index){
         resetBar0,
         emptyFunction,
         showBars,
-        // hideSearchPlot,
         hideBars,
         emptyFunction,
         emptyFunction,
