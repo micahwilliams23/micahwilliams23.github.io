@@ -860,9 +860,11 @@ dispatch.on('active', function(index){
         resetBar0,
         emptyFunction,
         showBars,
-        hideSearchPlot,
+        // hideSearchPlot,
         hideBars,
-        showSearchPlot
+        emptyFunction,
+        emptyFunction,
+        emptyFunction
     ]
 
     transitions[index]();
