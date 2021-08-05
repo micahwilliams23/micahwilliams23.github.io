@@ -1,0 +1,332 @@
+---
+title: "Exploration"
+author: "Micah Williams"
+date: "7/22/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.width = 7,
+                      fig.height = 5)
+
+library(tidyverse)
+library(RColorBrewer)
+library(Rcpp)
+library(dbplyr)
+library(DBI)
+
+db <- dbConnect(RPostgres::Postgres(),
+                     dbname = 'production',
+                     hostaddr = '34.123.123.110',
+                     user = 'micah',
+                     password = '6c97fc8c65954b43aaa6c5ea091ba32d',
+                     bigint = 'integer',
+                     connect_timeout = '10')
+sort(dbListTables(db))
+```
+
+```{r company_ids}
+sort(dbListFields(db, 'companies'))
+
+# get company id, name, etc.
+company_info <- tbl(db, 'companies') %>%
+  select(name, 
+         headcount, 
+         founding_year, 
+         funding_total, 
+         city,
+         state,
+         country) %>%
+  filter(!is.na(name),
+         !is.na(city), city != '',
+         !is.na(state), state != '',
+         !is.na(country), country != '',
+         funding_total > 0) %>%
+  mutate(funding_m = funding_total / 10^6) %>%
+  collect()
+
+# extract id and name for joining with other tables
+company_id <- company_info %>% select(id, name)
+
+# find percent of dataset younger than 2011 and smaller than 50 people
+prop.table(table(company_info$founding_year > 2011))
+prop.table(table(company_info$headcount <= 50))
+
+# plot headcount vs age
+company_info %>%
+  filter(!is.na(founding_year), 
+         !is.na(headcount), 
+         !is.na(funding_total),
+         between(founding_year, 1990, 2021),
+         funding_total < 1*10^9) %>%
+  mutate('age' = 2021 - founding_year,
+         funding_total = as.integer(funding_total)) %>%
+  ggplot() +
+  geom_bin2d(aes(age, headcount)) +
+  scale_y_log10(breaks = 10^seq(1,5,2),
+                labels = c('10', '1,000', '100,000')) + 
+  scale_fill_continuous(type = 'viridis') + 
+  labs(title = 'Heatmap: Age of company vs. headcount',
+       subtitle = 'Most companies are young and small, but over half are more than 10 years old, and\none in four have headcount above 50.',
+       y = 'Headcount\n(log scale)',
+       x = 'Age (years)') +
+  theme_minimal()
+```
+
+```{r funding}
+sort(dbListFields(db, 'funding_rounds'))
+funding <- tbl(db, 'funding_rounds') %>% 
+  select(id,
+         funded_company_id,
+         type = funding_type_str,
+         amount_raised = amount_raised_value_usd,
+         announced_date,
+         closed_date,
+         post_money_valuation = post_money_valuation_value_usd) %>%
+  filter(!is.na(amount_raised)) %>%
+  arrange(desc(amount_raised)) %>%
+  collect() %>%
+  left_join(company_id, by = 'id')
+
+funding %>%
+  select(name, everything()) %>%
+  filter(!is.na(name),
+         !is.na(post_money_valuation)) %>%
+  arrange(desc(post_money_valuation)) %>%
+  filter(!name %in% c('',' ')) %>%
+  select(name, post_money_valuation, amount_raised, everything())
+
+
+funding %>%
+  mutate(post_money_valuation_millions = as.integer(post_money_valuation / 10^6)) %>%
+  filter(!is.na(post_money_valuation), post_money_valuation > 1) %>%
+  summary()
+  ggplot() +
+  geom_histogram(aes(post_money_valuation_millions)) +
+  # geom_jitter(aes(post_money_valuation_millions, 0),
+  #             height = 0.25,
+  #             width = 0.1,
+  #             alpha = 0.3) +
+  scale_x_log10()
+
+```
+
+```{r companies}
+sort(dbListFields(db, 'companies'))
+
+glimpse(company_info)
+
+# summarize funding amounts by city
+company_info %>%
+  filter(!is.na(funding_total),
+         funding_total > 0) %>%
+  group_by(city, state, country) %>%
+  summarize(companies = n(),
+            median = median(funding_total),
+            q1 = quantile(funding_total, 0.25),
+            q3 = quantile(funding_total, 0.75),
+            max = quantile(funding_total, 1)) %>%
+  filter(companies >= 5) %>%
+  arrange(desc(companies), desc(median))
+
+# create list of cities with most companies
+top_cities <- company_info %>%
+  filter(!is.na(funding_total),
+         !is.na(city),
+         city != '',
+         funding_total > 0) %>%
+  group_by(city, state, country) %>%
+  summarize(companies = n(),
+            median = median(funding_total)) %>%
+  filter(n >= 5) %>%
+  arrange(desc(n), desc(median)) %>%
+  ungroup()
+
+# highest funded company in each city
+# company_info %>%
+#   filter(!is.na(funding_total),
+#          funding_total > 0,
+#          !is.na(state)) %>%
+#   group_by(city) %>%
+#   filter(!is.na(funding_total)) %>%
+#   arrange(funding_total) %>%
+#   mutate(r = row_number()) %>%
+#   filter(r == 1) %>%
+#   ungroup() %>%
+#   select(city, name, funding_total, headcount, founding_year) %>%
+#   arrange(desc(funding_total))
+```
+
+```{r founding_locations, fig.height=7, fig.width=10}
+# function to calculate IQM
+getHeadcountIQM <- function(x){
+  hc <- x$headcount
+  q1 = quantile(hc, 0.25)
+  q3 = quantile(hc, 0.75)
+  counts <- x %>% filter(between(headcount, q1, q3)) %>% pull(headcount)
+  mean(counts)
+}
+
+# list of cities, countries, and continents
+data(countryExData, package = 'rworldmap')
+continents <- tbl(db, 'companies') %>% 
+  select(city, country) %>%
+  distinct() %>% 
+  collect() %>%
+  left_join(countryExData[,c(2:4)], 
+            by = c('country' = 'Country')) %>% 
+  mutate(EPI_regions = case_when(country == 'United Arab Emirates' ~ 'Middle East and North Africa',
+                                 EPI_regions == 'Latin America and Caribbe' ~ 'Latin America and Caribbean',
+                                 TRUE ~ EPI_regions))
+
+headcount_IQM <- company_info %>%
+  select(city, state, country, headcount) %>%
+  filter(!is.na(headcount)) %>%
+  collect() %>%
+  group_by(city, state, country) %>%
+  nest() %>%
+  mutate(headcount_IQM = map_dbl(data, ~getHeadcountIQM(.))) %>%
+  select(-data)
+
+top_100 <- company_info %>%
+  filter(funding_total > 0,
+         !is.na(funding_total)) %>%
+  group_by(city, state, country) %>%
+  summarize(companies = n(),
+            median = median(funding_total)) %>%
+  arrange(desc(companies), desc(median)) %>%
+  head(100)
+
+founding_locations <- company_info %>% 
+  filter(funding_total > 0,
+         !is.na(funding_total)) %>% 
+  select(city, state, country, founding_date, founding_year) %>% 
+  right_join(top_100, by = c('city', 'state', 'country')) %>% 
+  arrange(desc(companies), desc(median)) %>% 
+  collect() %>%
+  group_by(city) %>%
+  nest(data = c(founding_date, founding_year)) %>%
+  select(everything(), founding = data)
+
+outliers <- founding_locations %>%
+  left_join(headcount_IQM, by = c('city', 'state', 'country')) %>% 
+  filter(any(median > 10^7,
+             companies > 4000,
+             headcount_IQM > 27)) %>%
+  mutate(funding_m = median / 10^6)
+
+# add headcount IQM
+founding_locations %>% 
+  left_join(headcount_IQM, by = c('city', 'state', 'country')) %>% 
+  left_join(continents, by = c('city', 'country')) %>%
+  mutate(funding_m = median / 10^6) %>%
+  pull(EPI_regions) %>%
+  unique() %>%
+  cat(sep = '\', \'')
+
+  # plot points
+  ggplot() +
+  geom_point(aes(funding_m, headcount_IQM,
+                 color = EPI_regions,
+                 size = companies),
+             alpha = 0.3) +
+  ggrepel::geom_text_repel(aes(funding_m, headcount_IQM,
+                               label = city),
+                           size = 3,
+                           box.padding = 0.5,
+                           data = outliers) +
+  scale_x_log10() +
+  # scale_y_log10() +
+  scale_size_continuous(breaks = c(1:5)*10^3,
+                        range = c(2,10)) +
+  scale_color_brewer(palette = 'Dark2') +
+  labs(x = 'Median Funding ($M)',
+       y = 'Average Headcount\n(interquartile mean)',
+       color = 'Region',
+       size = '# of Companies',
+       title = 'Funding vs. Headcount, by City',
+       subtitle = 'Traditional tech centers like SF, NYC, London, and Toronto attract lots of funding, but the companies tend to have few employees.\nCompanies based in India tend to be very large compared to similarly-funded companies in the West.') +
+  theme_minimal() +
+  guides(color = guide_legend(override.aes = list(size = 7)))
+        
+# ggsave('temp.png', height=7, width=10, dpi='retina')
+
+glimpse(founding_locations)
+
+
+sort(dbListFields(db, 'companies'))
+tbl(db, 'companies') %>%
+  filter(city %in% c('South San Francisco',
+                     'San Francisco',
+                     'Mumbai',
+                     'Beijing')) %>%
+  select_at(vars(contains('_tags'),
+                 name,
+                 city, state, country,
+                 funding_total,
+                 founding_year,
+                 headcount)) %>%
+  glimpse()
+
+
+tbl(db, 'companies') %>%
+  select(funding_total, headcount) %>%
+  filter(funding_total > 0,
+         headcount > 0,
+         !is.na(headcount),
+         !is.na(funding_total)) %>%
+  collect() %>%
+  jsonlite::write_json('testSite/all_companies.json')
+
+```
+
+```{r coordinates}
+
+world_cities <- read_csv('testSite/worldcities.csv') %>% janitor::clean_names() %>% select(city:country)
+company_info %>% 
+  anti_join(city_coords, by = c('city_ascii', 'country')) %>% 
+  # pull(city) %>% unique()
+  # filter(!is.na(city_ascii)) %>%
+  group_by(city_ascii, state, country) %>% 
+  summarize(t_f = sum(funding_total, na.rm = T) / 10^6) %>% 
+  arrange(desc(t_f))
+  
+  missing_cities_ascii <- iconv(missing_cities, 'UTF-8', 'ASCII//TRANSLIT')
+  
+
+  
+fastlink_matches <- fastLink::fastLink(company_info,
+                                       world_cities,
+                                       varnames = c('city_ascii', 'country'),
+                                       n.cores = 8,
+                                       threshold.match = 0.8,
+                                       return.df = T) 
+
+city_coords <- fastlink_matches['dfA.match'][[1]] %>%
+  mutate(lat = fastlink_matches['dfB.match'][[1]]$lat,
+         lon = fastlink_matches['dfB.match'][[1]]$lng)
+
+matches <- fastlink_matches['dfB.match'][[1]]
+    
+
+find_most_common <- function(v){
+  
+  if (length(unique(v)) == 1){
+    return(v[1])
+  } else {
+    return(names(sort(table(v), decreasing = T))[1])
+  }
+}
+
+city_coords %>% 
+  group_by(lat, lon) %>% 
+  summarize(companies = n(), 
+            funding_m = sum(funding_m),
+            country = find_most_common(country),
+            state = find_most_common(state),
+            city = find_most_common(city),
+            .groups = 'keep') %>%
+  arrange(desc(companies))
+```
+
