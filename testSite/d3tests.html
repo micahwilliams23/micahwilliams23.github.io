@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html lang='en'>
+    <head>
+
+        <!-- my css -->
+        <link rel='stylesheet' href='styles.css'>
+        <!-- load d3.js -->
+        <script src="https://d3js.org/d3.v7.min.js" defer></script>
+        <script src="https://d3js.org/d3-geo-projection.v2.min.js" defer></script>
+        <script src="app.js" defer></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <div class='row align-items-center'>
+            <div class='col-3 scrollerText order-2'>
+                <div class='col-xl-0 col'></div>
+                <div class='scrollerSection' style='margin-top: 200px;'>
+                    <p>
+                        Hover over the graphs for additional info. Scroll over this section to continue. 
+                    </p>
+                </div>
+                <div class='scrollerSection'>
+                    <p>
+                        Every day, hundreds of millions of dollars of venture capital funding is invested in companies around the world.<br><br>
+                        In spite of the pandemic in 2020, the total amount of venture capital funding was over <strong>$300 billion</strong>.
+                    </p>
+                </div>
+                <div class='scrollerSection'>
+                    <p>
+                        Historically, the majority of venture capital has been concentrated in American technology centers like San Francisco and New York City.<br><br>
+                        By most measures, these cities are still global heavyweights.
+                    </p>
+                </div>
+                <div class='scrollerSection'>
+                    <p>
+                        
+                    </p>
+                </div>
+            </div>
+            <div class='col-9 order-1' id='svgDiv'>
+                
+            </div>
+            <!-- <div class='col-xl-2 col-12'>
+                <form id='dataToggles'>
+                    <span style='font-weight: bolder;'>Continents</span><br>
+                </form><br>
+            </div> -->
+        </div>
+        <div class='cityInfo'>
+            <text style='font-weight: bold'>City:</text>
+            <span id='cityName'>San Francisco, California</span><br>
+            <text style='font-weight: bold'># of Companies:</text>
+            <span id='noCompanies'>5,821</span><br>
+            <text style='font-weight: bold'>Median Funding:</text>
+            <span id='medianFunding'>$3.00m</span><br>
+            <text style='font-weight: bold'>Avg. Headcount:</text>
+            <span id='avgHeadcount'>7.49</span><br>
+        </div>
+    </body>
+</html>
+

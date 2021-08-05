@@ -1,0 +1,110 @@
+::-webkit-scrollbar {
+    display: none;
+}
+  
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+body, div, html {
+    /* background-color: #111; */
+    padding-right: 0px;
+}
+
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+p {
+    position: relative;
+    font-weight: 400;
+    font-size: 18px;
+    /* width: 125%; */
+    color: white;
+    padding: 15px;
+    background-color: #01032bc6;
+    border-radius: 5px;
+    overflow-y: visible;
+}
+
+.axisTitle {
+    font-size: 20px;
+}
+
+.cityInfo {
+    position: absolute;
+    border: 2px solid black;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: #fafafaff;
+    font-size: 16px;
+}
+
+.checkboxText {
+    font-size: 14px;
+    padding: 7px;
+    padding-left: 5px;
+    padding-right: 25px;
+}
+
+.row {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.scrollerSection {
+    display: block;
+    padding-left: 20px;
+    margin-bottom: 150px;
+    margin-top: 50px;
+    overflow-y: visible;
+}
+
+.scrollerText {
+    position: absolute;
+    padding-left: 20px;
+    padding-right: 0px;
+    align-items: center;
+    max-height: 100vh;
+    overflow-y: scroll;
+    overflow-x: visible;
+    z-index: 100;
+}
+
+.tick {
+    font-size: 16px;
+}
+
+#dataToggles {
+    margin: auto;
+}
+
+#plotTitle {
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+#searchBar {
+    width: 60%;
+    margin: auto;
+    background-color: #fdfdfd;
+    fill: #fdfdfd;
+}
+
+#searchInput {
+    width: 100%;
+    margin: 10px;
+    margin-top: 0px;
+    fill: #fdfdfd;
+}
+
+#svgDiv {
+    z-index: 0;
+}
