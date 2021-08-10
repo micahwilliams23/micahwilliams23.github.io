@@ -1,7 +1,8 @@
 
 // load data from local json
-const founding_locations = d3.json('founding_locations.json')
-const all_companies = d3.json('all_companies.json')
+const us_states = d3.json('state_info.json')
+const us_cities = d3.json('us_info.json')
+const stateShapes = d3.json('states-10m.json')
 
 // set the dimensions and margins of the graph
 var bb = document.querySelector('#svgDiv').getBoundingClientRect(),
@@ -14,30 +15,7 @@ var bb = document.querySelector('#svgDiv').getBoundingClientRect(),
         right: width * margin_prop * 0.25, 
         left: width * margin_prop * 0.75};
 
-// make checkboxes for scatterplot
-const continents = ['North America', 'Europe', 'East Asia and the Pacific', 'South Asia', 'Middle East and North Africa', 'Latin America and Caribbean', 'Sub-Saharan Africa']
-const form = d3.select('#dataToggles')
-for(i in continents){
-
-    c = continents.sort()[i]
-    form.append('input')
-        .attr('type', 'checkbox')
-        .classed('checkbox', 'true')
-        .attr('name', c)
-        .attr('checked', 'true')
-        .on('click', function(){
-            d3.select(this).attr('checked', !this.checked)
-            hidePoints()
-            setTimeout(() => {plotPoints()}, 500)
-        })
-
-    form.append('text')
-        .classed('checkboxText', 'true')
-        .text(c);
-    form.append('br')
-}
-form.style('opacity', 0)
-d3.select('.cityInfo').style('left', '3000px')
+d3.select('.cityInfo').style('display', 'none')
 
 // draw SVG, axes, titles
 {
@@ -52,39 +30,38 @@ var svg = d3.select('#svgDiv')
 
 // add x axis
 var x = d3.scaleLog()
-    .domain([0.15, 60])
+    .domain([])
     .range([margin.left, width + margin.left - margin.right]);
+
 svg.append('g')
-    .classed('axis', 'true')
-    .attr('transform', 'translate(0,' + (height - margin.bottom) + ')')
-    .call(d3.axisBottom(x)
-            .tickValues([0.3, 1, 3, 10, 30])
-            .tickFormat(d => '$' + d + 'm'));
+    .classed('axis xAxis', 'true')
+    .attr('transform', 'translate(0,' + (height - margin.bottom) + ')');
 
 // add y axis
 var y = d3.scaleLinear()
-    .domain([0, 60])
+    .domain([])
     .range([height - margin.bottom, margin.top]);
 
 svg.append('g')
-    .classed('axis', 'true')
-    .attr('transform', 'translate(' + margin.left + ',0)')
-    .call(d3.axisLeft(y).ticks(5));
+    .classed('axis yAxis', 'true')
+    .attr('transform', 'translate(' + margin.left + ',0)');
 
 // add y axis title
 svg.append('text')
     .classed('axisTitle', 'true')
+    .attr('id', 'yAxisTitle')
+    .attr('text-anchor', 'middle')
     .attr('y', - margin.left * 0.2)
-    .attr('x', - (height / 2 + 2*margin.top + margin.bottom))
+    .attr('x', - height / 2)
     .attr('transform', 'rotate(-90)')
-    .text('Average Headcount (IQM)')
 
 // add x axis title
 svg.append('text')
     .classed('axisTitle', 'true')
+    .attr('id', 'xAxisTitle')
+    .attr('text-anchor', 'middle')
     .attr('y', height + margin.bottom / 2)
-    .attr('x', width / 2 - margin.left)
-    .text('Median Funding')
+    .attr('x', width / 2 + margin.left / 2)
 
 // add plot title
 svg.append('text')
@@ -92,6 +69,13 @@ svg.append('text')
     .attr('y', margin.top / 2 - 10)
     .attr('x', margin.left + 10)
     .text('Funding vs. Headcount in Top 100 Cities by Company Count')
+
+// add plot title
+svg.append('text')
+    .attr('id', 'plotSubtitle')
+    .attr('y', margin.top / 2 - 10 + 25)
+    .attr('x', margin.left + 10)
+    .text('')
 }
 
 function hideBaseLayer(){
@@ -100,84 +84,129 @@ function hideBaseLayer(){
     d3.select('#dataToggles').style('opacity', 0)
 }
 
-function mapCities(){
+function fadeOut(className){
+    d3.selectAll(className, duration = 1000)
+        .transition()
+        .duration(duration)
+        .style('opacity', 0)
+}
+
+function fadeIn(className){
+    d3.selectAll(className, duration = 1000)
+        .transition()
+        .duration(duration)
+        .style('opacity', 1)
+}
+
+function mapStates(){
 
     hideBaseLayer()
-    setPlotTitle('Founding Locations Around the World')
-
-    // set map projection
-    const projection = d3.geoNaturalEarth()
-        .scale(width / 4.5)
-        .translate([width/2, height/2 + 50])
+    setPlotTitle('Number of Funded Companies by State (n=68,587)')
+    setPlotSubtitle('Long-time heavyweights like California, New York, Massachusetts, and Texas are the most popular states for startups and venture capital.')
 
     // get map data from github
-    d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(function(data){
+    stateShapes.then(function(data){
+        us_states.then(function(data2){
+           
+            var featureCollection = {type:'FeatureCollection', 'features':[]}
+            data = topojson.feature(data, data.objects.states).features
+            data.forEach(d => {
+                d.properties.data = data2.filter(d2 => d2.state == d.properties.name)
+                if(d.properties.data.length == 1){
+                    d.properties.companies = d.properties.data[0].n
+                    d.properties.median = d.properties.data[0].median
+                }
+            })
+            featureCollection.features.push(...data)
 
-        // remove Antarctica
-        data.features = data.features.filter(d => d.properties.name != 'Antarctica')
+            const delayScale = d3.scaleLinear()
+                .domain([0, 500])
+                .range([0, 200])
 
-        // add map to svg
-        svg.append('g')
-            .selectAll('path')
-            .data(data.features)
-            .join('path')
-            .attr('d', d3.geoPath().projection(projection))
-            .style('stroke', '#111')
-            .style('fill', 'lightgray')
-            .style('opacity', 0.4)
+            const color = d3.scaleLinear()
+                .domain([1, 3000])
+                .range(['#fafafa', '#0c06aa'])
+                .clamp(true)
 
+            const colorLegend = d3.legendColor()
+                .scale(color)
+                .shapeWidth(60)
+                .shapeHeight(20)
+                .cells([0,500,1000,2000,3000])
+                .labels([0,500,'1,000','2,000','3000+'])
+                .orient('horizontal')
+            
+            // set map projection
+            const projection = d3.geoAlbersUsa()
+                .fitSize([width, height], featureCollection)
+                .translate([width*0.55, height*0.55])
+
+            // add legend to svg
+            svg.append('g')
+                .classed('legend', 'true')
+                .call(colorLegend)
+                .attr('transform',`translate(${width/2}, 70)`)
+
+            // add map to svg
+            svg.append('g')
+                .selectAll('path')
+                .data(data)
+                .enter()
+                .append('path')
+                .classed('usMap', 'true')
+                .attr('d', d3.geoPath().projection(projection))
+                .style('stroke', '#999')
+                .style('stroke-width', 0.5)
+                .style('fill', d => color(d.properties.companies))
+                .style('opacity', 0)
+                .on('mouseover', mouseoverMap)
+                .on('mousemove', (event) => mousemoveMap(event))
+                .on('mouseleave', mouseleaveMap)
+                .on('click', clickMap)
+
+            svg.selectAll('.usMap')
+                .transition()
+                .ease(d3.easeSin)
+                .duration(500)
+                .style('opacity', 1)
+                .delay((d, i) => i * 15)
+    
+        })
     })
 }
-mapCities()
 
-// add points for scatterplot
-function plotPoints(){
+// overlay city points on map
+function mapPoints(cities = []){
 
-    // show continents checkboxes
-    d3.select('#dataToggles').style('opacity', 1)
+    us_cities.then(function(d){
 
-    // check which continents are checked
-    var checkboxes = [...document.getElementsByClassName('checkbox')],
-        showContinents = [],
+        if(cities.length > 0){
+            d = d.filter(d => cities.includes(d.city))
+        }
 
-        // scale for sizing points
-        r = d3.scaleSqrt()
+        const delayScale = d3.scaleLinear()
+            .domain([0, 100])
+            .range([0,1000]);
+        
+        // scale for sizing
+        const r = d3.scaleSqrt()
             .domain([0, 6000])
             .range([5,15]);
 
-
-    checkboxes.forEach(function(box, i){
-        if(box.checked == true){
-            showContinents.push(box.name)
-        }
-    })
-
-    d3.select('.cityInfo')
-        // .style('opacity', 0)
-        .style('left', '3000px')
-        .style('top', '0px')
-
-    founding_locations.then(function(d){
-
-        var delayScale = d3.scaleLinear()
-            .domain([0, 100])
-            .range([0,1000]);
-
-        var color = d3.scaleOrdinal()
-            .domain(continents)
-            .range(['#1B9E77', '#D95F02', '#7570B3', '#E7298A', '#66A61E', '#A6761D', '#666666'])
+        const projection = d3.geoAlbersUsa()
+            .translate([width / 2 + 50, height / 2 + 30])
     
         svg.append('g')
             .attr('id', 'scatterplot')
             .selectAll('.points')
-            .data(d.filter(d => showContinents.includes(d.EPI_regions)))
+            .data(d)
             .enter()
             .append('circle')
-            .classed('points')
-            .attr('cx', d => x(d.funding_m))
-            .attr('cy', d => y(d.headcount_IQM))
+            .classed('points', 'true')
+            .attr('cx', d => projection([d.lng, d.lat])[0])
+            .attr('cy', d => projection([d.lng, d.lat])[1])
             .attr('r', d => r(d.companies))
-            .style('fill', d => color(d.EPI_regions))
+            .style('fill', 'blue')
             .attr('opacity', '0')
             .on('mouseover', mouseover)
             .on('mousemove', (event) => mousemove(event))
@@ -186,7 +215,82 @@ function plotPoints(){
         svg.selectAll('.points')
             .transition()
             .duration(350)
-            .attr('opacity', 0.35)
+            .attr('opacity', 0.6)
+            .delay((d, i) => delayScale(i));
+    })
+}
+
+// add points for scatterplot
+function plotPoints(){
+
+    setPlotSubtitle('Includes cities with more than 300 companies')
+    setXAxisTitle('Median Funding ($M, log scale)')
+    setYAxisTitle('Average Headcount (IQM)')
+
+    // show continents checkboxes
+    d3.select('#dataToggles').style('opacity', 1)
+
+    // scale for sizing
+    var r = d3.scaleSqrt()
+        .domain([0, 6000])
+        .range([3,15]);
+
+    us_cities.then(function(d){
+
+        console.log(d)
+
+        var delayScale = d3.scaleLinear()
+            .domain([0, 60])
+            .range([0,1000]);
+
+        d = d.sort((a, b) => b.companies - a.companies)
+             .filter((d, i) => i < 50 | (d.companies > 20 & d.median > 20))
+
+        var yMin = 1000, yMax = 0;
+
+        d.forEach(d => {
+            if(d.headcount_IQM < yMin){yMin = d.headcount_IQM}
+            if(d.headcount_IQM > yMax){yMax = d.headcount_IQM}
+        })
+
+        console.log(yMin, yMax)
+        console.log(d.filter(d => d.headcount_IQM == yMax)[0])
+
+        // new y axis
+        y.domain([yMin, yMax]).nice()
+        svg.select(".yAxis")
+            .transition()
+            .duration(1000)
+            .call(d3.axisLeft(y));
+        
+        // new x axis
+        x.domain([0.5, 20])
+        svg.select(".xAxis")
+            .transition()
+            .duration(1000)
+            .call(d3.axisBottom(x).tickValues([0.5,1,3,10,30]).tickFormat(d => '$' + d + 'm'));
+    
+        svg.append('g')
+            .attr('id', 'scatterplot')
+            .selectAll('.points')
+            .data(d)
+            .enter()
+            .append('circle')
+            .classed('points', 'true')
+            .attr('cx', d => x(d.median))
+            .attr('cy', d => y(d.headcount_IQM))
+            .attr('r', 0)
+            .style('fill', 'blue')
+            .attr('opacity', '0.6')
+            .on('mouseover', mouseoverPt)
+            .on('mousemove', (event) => mousemovePt(event))
+            .on('mouseleave', mouseleavePt);
+    
+        svg.selectAll('.points')
+            .transition()
+            .duration(350)
+            .attr('opacity', 0.6)
+            .attr('r', d => r(d.companies))
             .delay((d, i) => delayScale(i));
     })
 }
@@ -206,73 +310,108 @@ function hidePoints(){
     }, 150);
 }
 
-// restore opacity
-function mouseleave(){
+function clickMap(){
 
+    hideMap()
+
+    var state = d3.select(this).data()[0].properties.name
+    us_cities.then(d => {
+        d = d.filter(d => d.state == state)
+        console.log(d)
+    })
+}
+
+function hideMap(){
+    d3.selectAll('.usMap')
+        .transition()
+        .duration(1000)
+        .style('opacity', 0)
     
-    var color = d3.scaleOrdinal()
-            .domain(continents)
-            .range(['#1B9E77', '#D95F02', '#7570B3', '#E7298A', '#66A61E', '#A6761D', '#666666'])
+    d3.selectAll('.legend')
+        .transition()
+        .duration(1000)
+        .style('opacity', 0)
+}
+
+// restore opacity
+function mouseleaveMap(){
+
+    // hide tooltip
+    d3.select('.cityInfo')
+        .style('opacity', 0)
+        .style('display', 'none')
+}
+
+function mousemoveMap(event){
+
+    var pos = d3.pointer(event);
+
+    d3.select('.cityInfo')
+        .style('left', (pos[0]+20) + 'px')
+        .style('top', (pos[1]+20) + 'px');
+
+}
+
+// highlight point on mouseover
+function mouseoverMap(){
+
+    // hide tooltip
+    d3.select('.cityInfo')
+        .style('opacity', 1)
+        .style('display', 'block')
+
+    var data = d3.select(this).data()[0];
+        // format data
+        state = data.properties.name,
+        companies = Intl.NumberFormat().format(data.properties.companies);
+   
+    d3.select('#entry1').text(`${state}: ${companies}`)
+
+}
+
+// restore opacity
+function mouseleavePt(){
+
+    // hide tooltip
+    d3.select('.cityInfo')
+        .style('opacity', 0)
+        .style('display', 'none')
 
     // return points to regular opacity and color
     d3.selectAll('.points')
-        .style('fill', d => color(d.EPI_regions))
-        .attr('opacity', 0.35);
-
-    // move tooltip off screen
-    d3.select('.cityInfo')
-        .style('left', '3000px')
-        .style('top', '0px')  
-        .style('opacity', 0);
+        .style('fill', 'blue')
+        .attr('opacity', 0.6);
 }
 
-function mousemove(event){
+function mousemovePt(event){
 
-    var pos = d3.pointer(event),
-        leftPos = () => {
-            if(pos[0] + 180 < width){
-                return (pos[0]+180) + 'px'
-            } else {
-                return (pos[0] - 250) + 'px'
-            }
-        };
+    var pos = d3.pointer(event);
 
     d3.select('.cityInfo')
-        .style('left', leftPos)
+        .style('left', (pos[0]+20) + 'px')
         .style('top', (pos[1]+0) + 'px');
 
 }
 
 // highlight point on mouseover
-function mouseover(){
-
-    var color = d3.scaleOrdinal()
-            .domain(continents)
-            .range(['#1B9E77', '#D95F02', '#7570B3', '#E7298A', '#66A61E', '#A6761D', '#666666'])
-
-    function makeCityName(data){
-        if (data.country != 'United States') {
-            city = data.city + ', ' + data.country
-        } else {
-            city = data.city + ', ' + data.state
-        }
-        return city
-    }
+function mouseoverPt(){
 
     var data = d3.select(this).data()[0],
     
         // format data
-        city = makeCityName(data),
+        city = data.city + ', ' + data.state,
         companies = Intl.NumberFormat().format(data.companies),
-        funding = '$' + data.funding_m.toFixed(2) + 'm',
+        funding = '$' + data.median.toFixed(2) + 'm',
         headcount = data.headcount_IQM.toFixed(2);
 
-    d3.select('.cityInfo').style('opacity', 1)
+    d3.select('.cityInfo')
+        .style('opacity', 1)
+        .style('display', 'block')
 
-    d3.select('#cityName').text(city)
-    d3.select('#noCompanies').text(companies)
-    d3.select('#medianFunding').text(funding)
-    d3.select('#avgHeadcount').text(headcount)
+    d3.select('#entry1').text(city)
+    d3.select('#entry2').text(companies)
+    d3.select('#entry3').text(funding)
+    d3.select('#entry4').text(headcount)
 
     // highlight point
     d3.selectAll('.points')
@@ -280,15 +419,43 @@ function mouseover(){
         .style('fill', 'gray')
     
     d3.select(this)
-        .style('fill', d => color(d.EPI_regions))
-        .attr('opacity', 0.35)
+        .style('fill', 'blue')
+        .attr('opacity', 0.6)
 
 }
 
 function setPlotTitle(newTitle){
     d3.select('#plotTitle').text(newTitle)
 }
+function setPlotSubtitle(newTitle){
+    d3.select('#plotSubtitle').text(newTitle)
+}
+function setXAxisTitle(newTitle){
+    d3.select('#xAxisTitle').text(newTitle)
+}
+function setYAxisTitle(newTitle){
+    d3.select('#yAxisTitle').text(newTitle)
+}
+
+function showBaseLayer(){
+    d3.selectAll('.axisTitle')
+        .transition()
+        .duration(500)
+        .style('opacity', 1)
+
+    d3.selectAll('.axis')
+        .transition()
+        .duration(500)
+        .style('opacity', 1)
+
+    d3.select('#dataToggles')
+        .transition()
+        .duration(500)
+        .style('opacity', 1)
+}
 
 // plot points
 // plotPoints()
-hidePoints()
+// hidePoints()
+mapStates()
+// mapPoints([])

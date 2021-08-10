@@ -8,6 +8,8 @@
         <!-- load d3.js -->
         <script src="https://d3js.org/d3.v7.min.js" defer></script>
         <script src="https://d3js.org/d3-geo-projection.v2.min.js" defer></script>
+        <script src="https://unpkg.com/topojson@3" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js" defer></script>
         <script src="app.js" defer></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -17,46 +19,41 @@
             <div class='col-3 scrollerText order-2'>
                 <div class='col-xl-0 col'></div>
                 <div class='scrollerSection' style='margin-top: 200px;'>
+                    <p><span style='font-style: italic;'>
+                        Hover over the graphs for additional info. Scroll over this section to continue.
+                    </span></p>
+                </div>
+                <div class='scrollerSection'>
                     <p>
-                        Hover over the graphs for additional info. Scroll over this section to continue. 
+                        In spite of the pandemic in 2020, the total amount of venture capital funding in the United States was over <strong>$130 billion</strong>. <a href='https://www.statista.com/statistics/277501/venture-capital-amount-invested-in-the-united-states-since-1995/' target='_blank'>(source)</a>
                     </p>
                 </div>
                 <div class='scrollerSection'>
                     <p>
-                        Every day, hundreds of millions of dollars of venture capital funding is invested in companies around the world.<br><br>
-                        In spite of the pandemic in 2020, the total amount of venture capital funding was over <strong>$300 billion</strong>.
-                    </p>
-                </div>
-                <div class='scrollerSection'>
-                    <p>
-                        Historically, the majority of venture capital has been concentrated in American technology centers like San Francisco and New York City.<br><br>
-                        By most measures, these cities are still global heavyweights.
+                        The most popular headquarters for startups are California (22,133), New York (8,165), Massachusetts (4,705) and Texas (3,829).<br><i>Click a state for more info.</i>
                     </p>
                 </div>
                 <div class='scrollerSection'>
                     <p>
                         
+                        <!-- <input type='search' placeholder='Search for a city'></input> -->
                     </p>
                 </div>
             </div>
             <div class='col-9 order-1' id='svgDiv'>
                 
             </div>
-            <!-- <div class='col-xl-2 col-12'>
-                <form id='dataToggles'>
-                    <span style='font-weight: bolder;'>Continents</span><br>
-                </form><br>
-            </div> -->
+            
         </div>
         <div class='cityInfo'>
-            <text style='font-weight: bold'>City:</text>
-            <span id='cityName'>San Francisco, California</span><br>
-            <text style='font-weight: bold'># of Companies:</text>
-            <span id='noCompanies'>5,821</span><br>
-            <text style='font-weight: bold'>Median Funding:</text>
-            <span id='medianFunding'>$3.00m</span><br>
-            <text style='font-weight: bold'>Avg. Headcount:</text>
-            <span id='avgHeadcount'>7.49</span><br>
+            <!-- <text style='font-weight: bold'>City:</text> -->
+            <span id='entry1'>San Francisco, California</span><br>
+            <!-- <text style='font-weight: bold'># of Companies:</text> -->
+            <!-- <span id='entry2'>5,821</span><br> -->
+            <!-- <text style='font-weight: bold'>Median Funding:</text> -->
+            <!-- <span id='entry3'>$3.00m</span><br> -->
+            <!-- <text style='font-weight: bold'>Avg. Headcount:</text> -->
+            <!-- <span id='entry4'>7.49</span><br> -->
         </div>
     </body>
 </html>
