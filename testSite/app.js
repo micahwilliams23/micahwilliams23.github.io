@@ -15,7 +15,7 @@ var bb = document.querySelector('#svgDiv').getBoundingClientRect(),
         right: width * margin_prop * 0.25, 
         left: width * margin_prop * 0.75};
 
-d3.select('.cityInfo').style('display', 'none')
+d3.select('.tooltip').style('display', 'none')
 
 // draw SVG, axes, titles
 {
@@ -29,7 +29,11 @@ var svg = d3.select('#svgDiv')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 // add x axis
-var x = d3.scaleLog()
+var xLog = d3.scaleLog()
+    .domain([])
+    .range([margin.left, width + margin.left - margin.right]);
+
+var x = d3.scaleLinear()
     .domain([])
     .range([margin.left, width + margin.left - margin.right]);
 
@@ -68,7 +72,7 @@ svg.append('text')
     .attr('id', 'plotTitle')
     .attr('y', margin.top / 2 - 10)
     .attr('x', margin.left + 10)
-    .text('Funding vs. Headcount in Top 100 Cities by Company Count')
+    .text('')
 
 // add plot title
 svg.append('text')
@@ -84,15 +88,15 @@ function hideBaseLayer(){
     d3.select('#dataToggles').style('opacity', 0)
 }
 
-function fadeOut(className){
-    d3.selectAll(className, duration = 1000)
+function fadeOut(className, duration = 1000){
+    d3.selectAll(className)
         .transition()
         .duration(duration)
         .style('opacity', 0)
 }
 
-function fadeIn(className){
-    d3.selectAll(className, duration = 1000)
+function fadeIn(className, duration = 1000){
+    d3.selectAll(className)
         .transition()
         .duration(duration)
         .style('opacity', 1)
@@ -102,7 +106,7 @@ function mapStates(){
 
     hideBaseLayer()
     setPlotTitle('Number of Funded Companies by State (n=68,587)')
-    setPlotSubtitle('Long-time heavyweights like California, New York, Massachusetts, and Texas are the most popular states for startups and venture capital.')
+    setPlotSubtitle('California, New York, Massachusetts, and Texas are the most popular states venture-funded companies.')
 
     // get map data from github
     stateShapes.then(function(data){
@@ -125,12 +129,13 @@ function mapStates(){
 
             const color = d3.scaleLinear()
                 .domain([1, 3000])
-                .range(['#fafafa', '#0c06aa'])
+                // .range(['#fafafa', '#03045e'])
+                .range(['#fafafa', '#0077b6'])
                 .clamp(true)
 
             const colorLegend = d3.legendColor()
                 .scale(color)
-                .shapeWidth(60)
+                .shapeWidth(width / 15)
                 .shapeHeight(20)
                 .cells([0,500,1000,2000,3000])
                 .labels([0,500,'1,000','2,000','3000+'])
@@ -145,7 +150,7 @@ function mapStates(){
             svg.append('g')
                 .classed('legend', 'true')
                 .call(colorLegend)
-                .attr('transform',`translate(${width/2}, 70)`)
+                .attr('transform',`translate(${width/2+80}, 70)`)
 
             // add map to svg
             svg.append('g')
@@ -220,11 +225,101 @@ function mapPoints(cities = []){
     })
 }
 
+function plotFoundingTimeline(data, yMax){
+    
+    showBaseLayer()
+    var yMax = 1;
+    data.forEach(d => {
+        var row = Object.values(d);
+        row.shift() // remove first item
+        var rowSum = row.reduce((a,b) => a+b)
+        if(rowSum > yMax){yMax = rowSum}
+    })
+
+    // set axis titles
+    setXAxisTitle('Year')
+    setYAxisTitle('Companies Founded')
+
+    // set axes
+    // new y axis
+    y.domain([0,yMax*1.1]).nice()
+    svg.select(".yAxis")
+        .transition()
+        .duration(1000)
+        .call(d3.axisLeft(y).ticks(5));
+    
+    // new x axis
+    x.domain([2000,2020]).nice()
+    svg.select(".xAxis")
+        .transition()
+        .duration(1000)
+        .call(d3.axisBottom(x)
+            .tickValues([2000,2005,2010,2015,2020])
+            .tickFormat(d => d.toFixed(0)));
+
+    // show axes
+    fadeIn('.axis');
+    
+    var keys = Object.keys(data[0]);
+    keys.shift() // remove first item, qtr variable
+
+    var stacked = d3.stack()
+        .keys(keys)
+        (data)
+    
+    var areaGen = d3.area()
+        .x(d => x(d.data.qtr))
+        .y0(d => y(d[0]))
+        .y1(d => y(d[1]))
+
+    const color = d3.scaleOrdinal()
+        .range(["#03045e","#0077b6","#00b4d8","#90e0ef","#caf0f8"]);
+
+    const colorLegend = d3.legendColor()
+        .scale(color)
+        .shapeWidth(width / 15)
+        .shapeHeight(20)
+        .cells([0,500,1000,2000,3000])
+        .labels([0,500,'1,000','2,000','3000+'])
+        .orient('horizontal')
+
+    // add legend to svg
+    svg.select('#cityLines')
+        .append('g')
+        .classed('legend', 'true')
+        .call(colorLegend)
+        .attr('transform',`translate(${80}, 70)`)
+
+    // add data to svg
+    svg.append('g')
+        .attr('id', 'cityLines')
+        .attr('z-index', 95)
+        .style('opacity', 0)
+        .selectAll('.cityLines')
+        .data(stacked)
+        .enter()
+        .append('path')
+        .classed('.cityLines', 'true')
+        .attr('d', d => areaGen(d))
+        .attr('fill', d => color(d.key))
+        .on('mouseover', (event, d) => mouseoverArea(event, d))
+        .on('mousemove', mousemoveArea)
+        .on('mouseleave', mouseleaveMap)
+        .on('click', clickFoundingTimeline)
+
+    svg.select('#cityLines')
+        .transition()
+        .duration(500)
+        .style('opacity', 1)
+        .delay(500)
+}
+
 // add points for scatterplot
 function plotPoints(){
 
-    setPlotSubtitle('Includes cities with more than 300 companies')
-    setXAxisTitle('Median Funding ($M, log scale)')
+    setPlotTitle('Average Headcount vs. Median Funding in Top US Cities')
+    setPlotSubtitle('Includes top 50 American cities by number of companies.')
+    setXAxisTitle('Median Funding ($M)')
     setYAxisTitle('Average Headcount (IQM)')
 
     // show continents checkboxes
@@ -233,28 +328,23 @@ function plotPoints(){
     // scale for sizing
     var r = d3.scaleSqrt()
         .domain([0, 6000])
-        .range([3,15]);
+        .range([3,30]);
 
     us_cities.then(function(d){
-
-        console.log(d)
 
         var delayScale = d3.scaleLinear()
             .domain([0, 60])
             .range([0,1000]);
 
         d = d.sort((a, b) => b.companies - a.companies)
-             .filter((d, i) => i < 50 | (d.companies > 20 & d.median > 20))
+             .filter((d, i) => i < 50 | (d.companies > 500 & d.median > 20))
 
-        var yMin = 1000, yMax = 0;
+        var yMin, yMax;
 
         d.forEach(d => {
-            if(d.headcount_IQM < yMin){yMin = d.headcount_IQM}
-            if(d.headcount_IQM > yMax){yMax = d.headcount_IQM}
+            if(d.headcount_IQM < yMin || yMin === undefined){yMin = d.headcount_IQM}
+            if(d.headcount_IQM > yMax || yMax === undefined){yMax = d.headcount_IQM}
         })
-
-        console.log(yMin, yMax)
-        console.log(d.filter(d => d.headcount_IQM == yMax)[0])
 
         // new y axis
         y.domain([yMin, yMax]).nice()
@@ -264,11 +354,11 @@ function plotPoints(){
             .call(d3.axisLeft(y));
         
         // new x axis
-        x.domain([0.5, 20])
+        xLog.domain([0.5, 20])
         svg.select(".xAxis")
             .transition()
             .duration(1000)
-            .call(d3.axisBottom(x).tickValues([0.5,1,3,10,30]).tickFormat(d => '$' + d + 'm'));
+            .call(d3.axisBottom(xLog).tickValues([0.5,1,3,10,30]).tickFormat(d => '$' + d + 'm'));
     
         svg.append('g')
             .attr('id', 'scatterplot')
@@ -277,14 +367,15 @@ function plotPoints(){
             .enter()
             .append('circle')
             .classed('points', 'true')
-            .attr('cx', d => x(d.median))
+            .attr('cx', d => xLog(d.median))
             .attr('cy', d => y(d.headcount_IQM))
             .attr('r', 0)
-            .style('fill', 'blue')
+            .style('fill', '#0077b6')
             .attr('opacity', '0.6')
             .on('mouseover', mouseoverPt)
             .on('mousemove', (event) => mousemovePt(event))
-            .on('mouseleave', mouseleavePt);
+            .on('mouseleave', mouseleavePt)
+            .on('click', clickPt);
     
         svg.selectAll('.points')
             .transition()
@@ -297,10 +388,7 @@ function plotPoints(){
 
 // hide points before replotting
 function hidePoints(){
-    svg.selectAll('.points')
-        .transition()
-        .duration(150)
-        .attr('opacity', 0)
+    fadeOut('.points', 150)
 
     setTimeout(() => {
         svg.selectAll('.points')
@@ -310,53 +398,144 @@ function hidePoints(){
     }, 150);
 }
 
+function clickFoundingTimeline(){
+
+    fadeOut('#cityLines')
+    setTimeout(() => {
+        svg.select('#cityLines').remove()
+    }, 1000);
+    mapStates()
+}
+
 function clickMap(){
 
     hideMap()
+    fadeOut('.tooltip')
+    mouseleaveMap()
 
     var state = d3.select(this).data()[0].properties.name
     us_cities.then(d => {
+
+        // filter data to selected state
         d = d.filter(d => d.state == state)
-        console.log(d)
+            .sort((a,b) => b.companies - a.companies)
+
+        // count number of foundings per quarter for each city
+        var top_cities = [];
+        
+        d.forEach((d,i) => {
+            if(i == 1 || (i < 4 || d.companies > 1000)){
+                top_cities.push(d.city)
+            }
+        })
+        top_cities.push('All Other Cities')
+
+        var qtrs = [], yMax=1, n=0;
+        // var qtrs = [{'key': 'All Other Cities', 'values': []}], yMax=1, n=0;
+        d.forEach((d, i) => {
+
+            d.data.forEach(x => {
+
+                var newDate = new Date(x.founding_date);
+                
+                // count foundings by qtr and city
+                if(newDate > new Date('Jan 1 2000') && newDate < new Date('Dec 31 2020')){
+                    
+                    // ex. 02/05/2019 --> 2019Q1
+                    qtr = newDate.getFullYear() //+ 'Q' + (1+Math.floor(newDate.getMonth() / 3))
+                
+                    // add city to row if missing
+                    var rowMatch = qtrs.filter(d => d.qtr == qtr)[0]
+                    if(rowMatch === undefined){
+                        qtrs.push({
+                            'qtr': qtr,
+                        })
+                        top_cities.forEach(d => qtrs[qtrs.length-1][d] = 0)
+                    }
+
+                    // else add one to count
+                    else{
+                        if(top_cities.includes(d.city)){
+                            var city = d.city
+                        } else {
+                            var city = 'All Other Cities'
+                        }
+                        rowMatch[city] = rowMatch[city] + 1
+                    }
+                    n += 1
+                }
+            })
+        })
+        qtrs.sort((a,b) => a.qtr - b.qtr)
+        setPlotTitle(`Founding Year of Companies in ${state}, by city (n=${Intl.NumberFormat().format(n)})`)
+        setPlotSubtitle(`Includes ${state}-based companies created from 2000 - 2020`)
+        plotFoundingTimeline(qtrs, yMax)
     })
 }
 
+function clickPt(){
+
+    d3.select(this)
+        .transition()
+        .duration(500)
+        .style('r', 10000)
+
+}
+
 function hideMap(){
-    d3.selectAll('.usMap')
-        .transition()
-        .duration(1000)
-        .style('opacity', 0)
-    
-    d3.selectAll('.legend')
-        .transition()
-        .duration(1000)
-        .style('opacity', 0)
+    fadeOut('.usMap', 750)
+    fadeOut('.legend', 750)
+
+    setTimeout(() => {
+        svg.selectAll('.usMap')
+            .data([])
+            .exit()
+            .remove();
+    }, 750);
+}
+
+function mousemoveArea(event){
+ 
+    d3.select('.tooltip')
+        .style('left', event.pageX + 20 + 'px')
+        .style('top', event.pageY + 'px');
+
+}
+
+function mouseoverArea(event, d){
+     
+    // show tooltip
+    d3.select('.tooltip')
+        .style('opacity', 1)
+        .style('display', 'block')
+    d3.select('.tooltip').append('text').text(d.key)
+
 }
 
 // restore opacity
 function mouseleaveMap(){
 
     // hide tooltip
-    d3.select('.cityInfo')
+    d3.select('.tooltip')
         .style('opacity', 0)
         .style('display', 'none')
+
+    d3.select('.tooltip').select('text').remove()
 }
 
 function mousemoveMap(event){
 
-    var pos = d3.pointer(event);
-
-    d3.select('.cityInfo')
-        .style('left', (pos[0]+20) + 'px')
-        .style('top', (pos[1]+20) + 'px');
+    d3.select('.tooltip')
+        .style('left', (event.pageX + 10) + 'px')
+        .style('top', (event.pageY) + 'px');
 
 }
 
-// highlight point on mouseover
+// show state name
 function mouseoverMap(){
 
     // hide tooltip
-    d3.select('.cityInfo')
+    d3.select('.tooltip')
         .style('opacity', 1)
         .style('display', 'block')
 
@@ -365,31 +544,39 @@ function mouseoverMap(){
         state = data.properties.name,
         companies = Intl.NumberFormat().format(data.properties.companies);
    
-    d3.select('#entry1').text(`${state}: ${companies}`)
+    
+    d3.select('.tooltip').select('text').remove()
+    d3.select('.tooltip').append('text').text(`${state}: ${companies}`)
 
 }
 
 // restore opacity
 function mouseleavePt(){
 
+    // remove info
+    d3.select('.tooltip').select('table').remove()
+    d3.select('.tooltipTagList').remove()
+    
     // hide tooltip
-    d3.select('.cityInfo')
+    d3.select('.tooltip')
         .style('opacity', 0)
         .style('display', 'none')
 
     // return points to regular opacity and color
     d3.selectAll('.points')
-        .style('fill', 'blue')
+        .style('fill', '#0077b6')
         .attr('opacity', 0.6);
 }
 
 function mousemovePt(event){
 
-    var pos = d3.pointer(event);
+    var tooltip = document.querySelector('.tooltip'),
+        window = document.querySelector('.row'),
+        yPos = Math.min(window.offsetHeight - tooltip.offsetHeight - 30, event.clientY)
 
-    d3.select('.cityInfo')
-        .style('left', (pos[0]+20) + 'px')
-        .style('top', (pos[1]+0) + 'px');
+    d3.select('.tooltip')
+        .style('left', (event.clientX+20) + 'px')
+        .style('top', yPos + 'px');
 
 }
 
@@ -404,14 +591,69 @@ function mouseoverPt(){
         funding = '$' + data.median.toFixed(2) + 'm',
         headcount = data.headcount_IQM.toFixed(2);
 
-    d3.select('.cityInfo')
+        rownames = ['City:', 'Median Funding:', 'Avg. Headcount:', '# Companies:']
+        info = [city, funding, headcount, companies];
+
+        // combine data for table
+        info.map((d, i) => {
+            return info[i] = [rownames[i], info[i]]
+        })
+
+    // console.log(data)
+
+    d3.select('.tooltip')
         .style('opacity', 1)
         .style('display', 'block')
 
-    d3.select('#entry1').text(city)
-    d3.select('#entry2').text(companies)
-    d3.select('#entry3').text(funding)
-    d3.select('#entry4').text(headcount)
+    // create frequency table of tags
+    var top_tags = {}
+    data.data.forEach(d => {
+        if(d.tech_tags){
+            var tags = d.tech_tags.replaceAll(/[^A-Za-z0-9_ /,]/g, '').split(',')
+            tags.forEach(tag => {
+                if(tag == ''){
+                    return
+                } else if(Object.keys(top_tags).includes(tag)){
+                    top_tags[tag].value += 1
+                } else {
+                    top_tags[tag] = {
+                        'key': tag,
+                        'value': 1
+                    }
+                }
+            })
+        }
+    })
+
+    // select tag names from top 5 most freq tags
+    top_tags = Object.values(top_tags).sort((a,b) => b.value - a.value).slice(0,5).map(d => d.key)
+
+    // add table and info
+    d3.select('.tooltip').append('table')
+        .style('table-layout', 'fixed')
+        .selectAll('tr')
+        .data(info)
+        .enter()    
+        .append('tr')
+        .classed('tooltipRownames', 'true')
+        .append('td')
+        .html(d => d[0] + ' <span style=\'font-weight:bolder\'>' + d[1] + '</span>')
+
+    d3.select('.tooltip').append('g')
+        .classed('tooltipTagList', 'true')
+
+    d3.select('.tooltipTagList')
+        .append('text')
+        .text('Top Industries:')
+    
+    d3.select('.tooltipTagList')
+        .append('ol')
+        .style('margin', '5px')
+        .selectAll('li')
+        .data(top_tags)
+        .enter()
+        .append('li')
+        .text(d => d)
 
     // highlight point
     d3.selectAll('.points')
@@ -419,7 +661,7 @@ function mouseoverPt(){
         .style('fill', 'gray')
     
     d3.select(this)
-        .style('fill', 'blue')
+        .style('fill', '#0077b6')
         .attr('opacity', 0.6)
 
 }
@@ -455,7 +697,7 @@ function showBaseLayer(){
 }
 
 // plot points
+mapStates()
 // plotPoints()
 // hidePoints()
-mapStates()
 // mapPoints([])

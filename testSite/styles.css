@@ -24,10 +24,19 @@ html {
     overflow-y: hidden;
 }
 
+li {
+    background-color: inherit;
+}
+
+ol {
+    padding-left: 25px;
+    margin-bottom: 100px;
+}
+
 p {
     position: relative;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 16px;
     color: white;
     padding: 15px;
     background-color: #01032bc6;
@@ -37,17 +46,6 @@ p {
 
 .axisTitle {
     font-size: 20px;
-}
-
-.cityInfo {
-    position: absolute;
-    border: 2px solid black;
-    border-radius: 3px;
-    margin: 10px;
-    padding: 5px;
-    background-color: #fafafaff;
-    font-size: 14px;
-    z-index: 100;
 }
 
 .checkboxText {
@@ -84,12 +82,22 @@ p {
     align-items: center;
     max-height: 100vh;
     overflow-y: scroll;
-    overflow-x: visible;
     z-index: 99;
 }
 
 .tick {
-    font-size: 16px;
+    font-size: 18px;
+}
+
+.tooltip {
+    position: absolute;
+    border: 2px solid black;
+    border-radius: 3px;
+    margin: 10px;
+    padding: 5px;
+    background-color: #fafafaff;
+    font-size: 14px;
+    z-index: 100;
 }
 
 #dataToggles {
