@@ -24,6 +24,10 @@ html {
     overflow-y: hidden;
 }
 
+label {
+    margin-right: 10px;
+}
+
 li {
     background-color: inherit;
 }
@@ -83,6 +87,7 @@ p {
     max-height: 100vh;
     overflow-y: scroll;
     z-index: 99;
+    background-color: #fafafa;
 }
 
 .tick {
@@ -115,17 +120,13 @@ p {
 }
 
 #searchBar {
-    width: 60%;
+    width: 25%;
+    height: 35px;
     margin: auto;
-    background-color: #fdfdfd;
-    fill: #fdfdfd;
-}
-
-#searchInput {
-    width: 100%;
-    margin: 10px;
-    margin-top: 0px;
-    fill: #fdfdfd;
+    padding-left: 10px;
+    background-color: #fdfdfd88;
+    position: absolute;
+    border-radius: 5px;
 }
 
 #svgDiv {
