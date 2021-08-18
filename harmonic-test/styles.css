@@ -109,6 +109,13 @@ p {
     margin: auto;
 }
 
+#loadTips {
+    position: absolute;
+    top: 47%;
+    left: 25%;
+    text-anchor: middle;
+}
+
 #plotSubtitle {
     font-size: 18px;
     font-weight: 500;
