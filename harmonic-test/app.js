@@ -989,6 +989,10 @@ function showMap(){
     fadeOut('.axisTitle')
 
     d3.select('#searchBar').remove()
+    fadeOut('#loadTips')
+    setTimeout(() => {
+        d3.select('#loadTips').remove()
+    }, 500);
 }
 
 function showPoints(){
