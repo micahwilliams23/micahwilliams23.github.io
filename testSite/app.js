@@ -3,7 +3,7 @@
 const us_states = d3.json('state_info.json')
 const us_cities = d3.json('us_info.json')
 const stateShapes = d3.json('states-10m.json')
-const tags = d3.json('tags.json')
+const tags = d3.json('tags.json').then(d => d.sort((a,b) => a.tag - b.tag))
 
 // set the dimensions and margins of the graph
 var bb = document.querySelector('#svgDiv').getBoundingClientRect(),
@@ -357,6 +357,34 @@ function plotPoints(){
             .transition()
             .duration(1000)
             .call(d3.axisBottom(xLog).tickValues([0.5,1,3,10,30]).tickFormat(d => '$' + d + 'm'));
+
+        // subset of data to label
+        var labelled_cities = ['New York', 'San Francisco', 'Boston', 'Seattle', 'Sunnyvale', 'Redwood City', 'Durham', 'Waltham']
+        var labelDir = [-135, 45, -45, 100, 45, -180, 45, -180]
+        var labels = d.filter(d => labelled_cities.includes(d.city)).map(function(d, i){
+            function state(x){
+                if(x == 'California'){return 'Calif.'}
+                if(x == 'New York'){return 'N.Y.'}
+                if(x == 'Massachusetts'){return 'Mass.'}
+                if(x == 'North Carolina'){return 'N.C.'}
+                if(x == 'Washington'){return 'Wash.'}
+                else {return x}
+            }
+            d.label = d.city + ', ' + state(d.state)
+            d.x = Math.cos(labelDir[i] * Math.PI / 180) * 2.5 * r(d.companies)
+            d.y = Math.sin(labelDir[i] * Math.PI / 180) * 2.5 * r(d.companies)
+            
+            return {
+                'label': d.label,
+                'city': d.city,
+                'state': d.state,
+                'x': xLog(d.median) + d.x,
+                'y': y(d.headcount_IQM) + d.y,
+                'x0': xLog(d.median),
+                'y0': y(d.headcount_IQM),
+                'text_anchor': ['end', 'start', 'start', 'end', 'start', 'end', 'start', 'end'][i]
+            }
+        })
             
         svg.select('#scatterplot')
             .selectAll('.points')
@@ -371,7 +399,41 @@ function plotPoints(){
             .on('mouseover', mouseoverPt)
             .on('mousemove', (event) => mousemovePt(event))
             .on('mouseleave', mouseleavePt)
-            .on('click', clickPt);
+            .on('click', clickPt)
+            .transition()
+            .duration(350)
+            .style('opacity', 0.6)
+            .attr('r', d => r(d.companies))
+            .delay((d, i) => delayScale(i));;
+
+        svg.select('#scatterplot')
+            .selectAll('.labels')
+            .data(labels).enter()
+            .append('text')
+            .classed('labels', 'true')
+            .attr('x', d=>d.x)
+            .attr('y', d=>d.y + 5)
+            .attr('text-anchor', d => d.text_anchor)
+            .text(d => d.label)
+            .style('opacity', 0)
+            .transition()
+            .duration(500)
+            .style('opacity', 1);
+
+        svg.select('#scatterplot')
+            .selectAll('.labelLines')
+            .data(labels).enter()
+            .append('line')
+            .classed('labelLines', 'true')
+            .attr('x1', d => d.x)
+            .attr('x2', d => d.x0)
+            .attr('y1', d => d.y)
+            .attr('y2', d => d.y0)
+            .attr('stroke', '#0077b6')
+            .style('opacity', 0)
+            .transition()
+            .duration(500)
+            .style('opacity', 1);
 
         var titlePos = document.querySelector('#plotTitle').getBoundingClientRect()
         
@@ -386,16 +448,6 @@ function plotPoints(){
             .style('left', titlePos.x + 'px')
             .on('keyup', filterPts)
 
-        // fade in points
-        svg.select('#scatterplot')
-            .style('display', 'block')
-            .selectAll('.points')
-            .transition()
-            .duration(350)
-            .style('opacity', 0.6)
-            .attr('r', d => r(d.companies))
-            .delay((d, i) => delayScale(i));
-    
         fadeIn('.axis')
 
     })
@@ -405,7 +457,7 @@ function plotPoints(){
 function plotTags(){
 
     setPlotTitle('Average Headcount vs. Median Funding by Technology Type')
-    setPlotSubtitle('Industry tags are colored purple, and tech tags are colored green.')
+    setPlotSubtitle('Highly funded correlates with higher headcounts, except in industries like Nanotechnology, Biotech, and Medical Devices.')
     setXAxisTitle('Median Funding ($M)')
     setYAxisTitle('Average Headcount (IQM)')
 
@@ -447,9 +499,73 @@ function plotTags(){
             .call(d3.axisBottom(xLog).tickFormat((d, i) => {
                 if(d%5==0|i==0|d==1){return '$' + d + 'm'}}));
 
+        // subset of data to label
+        var labelled_tags = [
+            'Biotechnology',
+            'Business Software Services',
+            'Chemical / Life Sciences', 
+            'Communications Technology',
+            'Social / Civic / Gov Tech',
+            'Cloud Infrastructure', 
+            'Financial Technology', 
+            'Health / Wellness', 
+            'Nanotechnology', 
+            'Next Gen Computing'
+        ]
+
+        var labelDir = [45, -135, -135, 135, 85, 135, -135, -135, 45, -135]
+        var labels = d.filter(d => labelled_tags.includes(d.tag))
+            .map(function(d, i){
+
+            d.x = Math.cos(labelDir[i] * Math.PI / 180) * 2.5 * r(d.data.length)
+            d.y = Math.sin(labelDir[i] * Math.PI / 180) * 2.5 * r(d.data.length)
+
+            function anchor(x){
+                if(Math.abs(x) < 90){return 'start'}
+                else if(Math.abs(x) > 90){return 'end'}
+                else {return 'middle'}
+            }
+            
+            return {
+                'tag': d.tag,
+                'label': d.tag,
+                'tag_type': d.tag_type,
+                'x': xLog(d.median) + d.x,
+                'y': y(d.headcount_IQM) + d.y,
+                'x0': xLog(d.median),
+                'y0': y(d.headcount_IQM),
+                'text_anchor': anchor(labelDir[i])
+            }
+        })
+
+        console.log(labels)
+
+        svg.select('#tagPlot')
+            .selectAll('.labels')
+            .data(labels).enter()
+            .append('text')
+            .classed('labels', 'true')
+            .attr('x', d=>d.x)
+            .attr('y', d=>d.y + 5)
+            .attr('text-anchor', d => d.text_anchor)
+            .text(d => d.label)
+            .style('opacity', 0);
+
+        svg.select('#tagPlot')
+            .selectAll('.labelLines')
+            .data(labels).enter()
+            .append('line')
+            .classed('labelLines', 'true')
+            .attr('x1', d => d.x)
+            .attr('x2', d => d.x0)
+            .attr('y1', d => d.y)
+            .attr('y2', d => d.y0)
+            .attr('stroke', 'gray')
+            .style('opacity', 0);
+        
         var titlePos = document.querySelector('#plotTitle').getBoundingClientRect()
 
-        // make search bar
+        // make tag type toggle
         d3.select('#tagsMenu')
             .style('display', 'block')
             .style('position', 'absolute')
@@ -497,8 +613,6 @@ function plotTags(){
 
         // show only points with selected tag type
         filterTags()
-        // setTimeout(() => {
-        // }, 350);
 
     })
 }
@@ -507,10 +621,14 @@ function plotTags(){
 function hidePoints(){
     fadeOut('.points')
     fadeOut('#searchBar')
+    fadeOut('.labels')
+    fadeOut('.labelLines')
 
     setTimeout(() => {
         svg.select('#scatterplot').selectAll('.points').remove()
         d3.select('#searchBar').remove()
+        svg.select('#scatterplot').selectAll('.labelLines').remove()
+        svg.select('#scatterplot').selectAll('.labels').remove()
     }, 500);
 }
 
@@ -520,6 +638,9 @@ function clickFoundingTimeline(replot){
     fadeOut('#cityLines')
     fadeOut('.axis')
     fadeOut('.axisTitle')
+
+    setPlotTitle('Number of Funded Companies by State (n=68,587)')
+    setPlotSubtitle('California, New York, Massachusetts, and Texas are the most popular states venture-funded companies.')
 
     setTimeout(() => {
         svg.select('#cityLines').remove()
@@ -608,11 +729,20 @@ function clickPt(){
 function filterPts(){
 
     var points = d3.selectAll('.points');
+    var labels = svg.select('#scatterplot').selectAll('.labels'),
+        labelLines = svg.select('#scatterplot').selectAll('.labelLines');
     var query = document.querySelector('#searchBar').value.toLowerCase();
 
     points.style('fill', '#0077b6').style('opacity', 0.1)
     if(query == ''){
         points.style('fill', '#0077b6').style('opacity', 0.6)
+        labels.style('opacity', 1)
+        labelLines.style('opacity', 1)
+    }
+
+    if(query != ''){
+        labels.style('opacity', 0.1)
+        labelLines.style('opacity', 0.1)
     }
 
     // highlight point
@@ -620,6 +750,7 @@ function filterPts(){
         .attr('opacity', 0.1)
         .style('fill', 'gray')
     
+    // recolor points that match search
     points.data().forEach((d, i) => {
         if(d.state.toLowerCase().startsWith(query) || d.city.toLowerCase().startsWith(query)){
             var match = points['_groups'][0][i]
@@ -627,22 +758,50 @@ function filterPts(){
             match.style.opacity = 0.6
         }
     })
+    
+    // show labels that match
+    labels.data().forEach((d, i) => {
+        if(d.city.toLowerCase().startsWith(query) || d.state.toLowerCase().startsWith(query)){
+            var match = labels['_groups'][0][i]
+            match.style.opacity = 1
+        }
+    })
+
+    // show label lines that match
+    labels.data().forEach((d, i) => {
+        if(d.city.toLowerCase().startsWith(query) || d.state.toLowerCase().startsWith(query)){
+            var match = labelLines['_groups'][0][i]
+            match.style.opacity = 1
+        }
+    })
 }
 
 function filterTags(){
 
-    svg.select('#tagPlot')
-        .selectAll('.points')
-        .transition()
-        .duration(300)
-        .style('opacity', '0')
+    fadeOut('.points', 250)
+    fadeOut('.labels', 250)
+    fadeOut('.labelLines', 250)
 
     svg.select('#tagPlot')
         .selectAll('.points')
         .transition()
         .duration(500)
         .style('opacity', d => d.tag_type == document.querySelector('#tagTypes').value ? '0.6' : '0')
-        .delay((d, i) => 300 + i * 15)
+        .delay((d, i) => 250 + i * 10)
+    
+    svg.select('#tagPlot')
+        .selectAll('.labels')
+        .transition()
+        .duration(500)
+        .style('opacity', d => d.tag_type == document.querySelector('#tagTypes').value ? 1 : 0)
+        .delay((d, i) => 500 + i * 50)
+    
+    svg.select('#tagPlot')
+        .selectAll('.labelLines')
+        .transition()
+        .duration(500)
+        .style('opacity', d => d.tag_type == document.querySelector('#tagTypes').value ? 1 : 0)
+        .delay((d, i) => 500 + i * 50)
 
     setTimeout(() => {
         svg.select('#tagPlot')
@@ -667,6 +826,8 @@ function hideTags(){
     fadeOut('#tagsMenu')
     setTimeout(() => {
         svg.select('#tagPlot').selectAll('.points').remove()
+        svg.select('#tagPlot').selectAll('.labels').remove()
+        svg.select('#tagPlot').selectAll('.labelLines').remove()
         d3.select('#tagsMenu').selectAll('label').remove()
         d3.select('#tagsMenu').selectAll('select').remove()
         
@@ -701,7 +862,7 @@ function mouseleaveMap(){
         .style('opacity', 0)
         .style('display', 'none')
 
-    d3.select('.tooltip').select('text').remove()
+    d3.select('.tooltip').selectAll('text').remove()
 }
 
 function mousemoveMap(event){
@@ -989,6 +1150,10 @@ function showMap(){
     fadeOut('.axisTitle')
 
     d3.select('#searchBar').remove()
+    fadeOut('#loadTips')
+    setTimeout(() => {
+        d3.select('#loadTips').remove()
+    }, 500);
 }
 
 function showPoints(){
@@ -1011,6 +1176,8 @@ function showPoints(){
     // fade in search and axes
     fadeIn('#searchBar')
     fadeIn('.axisTitle')
+    fadeIn('.labels')
+    fadeIn('.labelLines')
 
 }
 
@@ -1019,8 +1186,6 @@ function showTags(){
     fadeIn('#tagsMenu')
     hidePoints()
     plotTags()
-
-
 }
 
 // set up scroller... many thanks to https://vallandingham.me/scroller.html
@@ -1055,8 +1220,7 @@ dispatch.on('active', function(index){
         showMap,
         showPoints,
         showTags,
-        function(){},
-        function(){},
+        hideTags
     ]
 
     transitions[index]();
