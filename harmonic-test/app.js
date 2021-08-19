@@ -457,7 +457,7 @@ function plotPoints(){
 function plotTags(){
 
     setPlotTitle('Average Headcount vs. Median Funding by Technology Type')
-    setPlotSubtitle('Life sciences companies typically have seven-figure funding totals but fewer than 16 employees.')
+    setPlotSubtitle('Highly funded correlates with higher headcounts, except in industries like Nanotechnology, Biotech, and Medical Devices.')
     setXAxisTitle('Median Funding ($M)')
     setYAxisTitle('Average Headcount (IQM)')
 
